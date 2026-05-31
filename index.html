@@ -23,13 +23,11 @@
       gap: 16px;
     }
 
-    /* Chaque bloc est une image cliquable */
     .bloc {
       width: 100%;
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-      display: block;
       position: relative;
     }
 
@@ -39,99 +37,13 @@
       display: block;
     }
 
-    /* Bloc avec 2 zones cliquables côte à côte */
-    .bloc-2 {
-      width: 100%;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-      position: relative;
-    }
-
-    .bloc-2 img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .zone-g, .zone-d {
+    .zone {
       position: absolute;
-      top: 20%;
-      height: 75%;
-      width: 48%;
       cursor: pointer;
-      border-radius: 12px;
+      border-radius: 10px;
       -webkit-tap-highlight-color: rgba(255,255,255,0.2);
     }
-
-    .zone-g { left: 2%; }
-    .zone-d { right: 2%; }
-    .zone-g:active, .zone-d:active { background: rgba(255,255,255,0.15); }
-
-    /* Bloc avec 3 zones : iOS, Android, ICS */
-    .zone-ios {
-      position: absolute;
-      top: 25%;
-      left: 2%;
-      width: 46%;
-      height: 28%;
-      cursor: pointer;
-      border-radius: 12px;
-      -webkit-tap-highlight-color: rgba(255,255,255,0.2);
-    }
-
-    .zone-android {
-      position: absolute;
-      top: 25%;
-      right: 2%;
-      width: 46%;
-      height: 28%;
-      cursor: pointer;
-      border-radius: 12px;
-      -webkit-tap-highlight-color: rgba(255,255,255,0.2);
-    }
-
-    .zone-ics {
-      position: absolute;
-      top: 60%;
-      left: 2%;
-      width: 96%;
-      height: 33%;
-      cursor: pointer;
-      border-radius: 12px;
-      -webkit-tap-highlight-color: rgba(255,255,255,0.2);
-    }
-
-    .zone-ios:active, .zone-android:active, .zone-ics:active {
-      background: rgba(255,255,255,0.15);
-    }
-
-    /* Bloc bas : mur + bouton rouge */
-    .zone-mur {
-      position: absolute;
-      top: 20%;
-      left: 2%;
-      width: 50%;
-      height: 70%;
-      cursor: pointer;
-      border-radius: 12px;
-      -webkit-tap-highlight-color: rgba(255,255,255,0.2);
-    }
-
-    .zone-rouge {
-      position: absolute;
-      top: 5%;
-      right: 2%;
-      width: 44%;
-      height: 90%;
-      cursor: pointer;
-      border-radius: 50%;
-      -webkit-tap-highlight-color: rgba(255,255,255,0.2);
-    }
-
-    .zone-mur:active, .zone-rouge:active {
-      background: rgba(255,255,255,0.15);
-    }
+    .zone:active { background: rgba(255,255,255,0.15); }
   </style>
 </head>
 <body>
@@ -139,38 +51,38 @@
 
   <!-- HEADER -->
   <div class="bloc">
-    <img src="images/header.png" alt="Planning GHE brancardier">
+    <img src="images/header.jpg" alt="Planning GHE" loading="eager">
   </div>
 
-  <!-- PLANNING OFFICIEL : JOUR / NUIT / STAGIAIRES / CHEFS -->
-  <div class="bloc-2">
-    <img src="images/planning-officiel.png" alt="Planning officiel">
-    <a class="zone-g" href="mois.html?type=jour" style="top:18%;height:36%;"></a>
-    <a class="zone-d" href="mois.html?type=nuit" style="top:18%;height:36%;"></a>
-    <a class="zone-g" href="mois.html?type=stagiaires" style="top:57%;height:36%;"></a>
-    <a class="zone-d" href="mois.html?type=chefs" style="top:57%;height:36%;"></a>
+  <!-- PLANNING OFFICIEL -->
+  <div class="bloc">
+    <img src="images/planning-officiel.jpg" alt="Planning officiel" loading="eager">
+    <a class="zone" href="mois.html?type=jour"       style="top:18%;left:2%;width:46%;height:36%;"></a>
+    <a class="zone" href="mois.html?type=nuit"       style="top:18%;right:2%;width:46%;height:36%;"></a>
+    <a class="zone" href="mois.html?type=stagiaires" style="top:57%;left:2%;width:46%;height:36%;"></a>
+    <a class="zone" href="mois.html?type=chefs"      style="top:57%;right:2%;width:46%;height:36%;"></a>
   </div>
 
-  <!-- MON PLANNING PERSONNEL : CAPTURE / AGENDA -->
-  <div class="bloc-2">
-    <img src="images/planning-perso.png" alt="Mon planning personnel">
-    <a class="zone-g" href="mois.html?type=pdf" style="top:35%;height:55%;"></a>
-    <a class="zone-d" href="mois.html?type=ics" style="top:35%;height:55%;"></a>
+  <!-- MON PLANNING PERSONNEL -->
+  <div class="bloc">
+    <img src="images/planning-perso.jpg" alt="Mon planning personnel" loading="lazy">
+    <a class="zone" href="mois.html?type=pdf" style="top:35%;left:2%;width:46%;height:55%;"></a>
+    <a class="zone" href="mois.html?type=ics" style="top:35%;right:2%;width:46%;height:55%;"></a>
   </div>
 
-  <!-- INFOS EQUIPE : iOS / ANDROID / ICS -->
-  <div class="bloc-2" style="position:relative;">
-    <img src="images/infos-equipe.png" alt="Infos équipe du jour">
-    <a class="zone-ios" href="webcal://calendar.google.com/calendar/ical/ca4fd5e66513b5e783fba86f6df8e1f73dbd237fc1f83749f3cabb97d273d969%40group.calendar.google.com/private-5a1892e376d3c9b3cc82c5f0ad61c333/basic.ics"></a>
-    <a class="zone-android" href="https://calendar.google.com/calendar/render?cid=https%3A%2F%2Fcalendar.google.com"></a>
-    <a class="zone-ics" href="mois.html?type=collectif-ics"></a>
+  <!-- INFOS EQUIPE -->
+  <div class="bloc">
+    <img src="images/infos-equipe.jpg" alt="Infos équipe" loading="lazy">
+    <a class="zone" href="webcal://calendar.google.com/calendar/ical/ca4fd5e66513b5e783fba86f6df8e1f73dbd237fc1f83749f3cabb97d273d969%40group.calendar.google.com/private-5a1892e376d3c9b3cc82c5f0ad61c333/basic.ics" style="top:25%;left:2%;width:46%;height:28%;"></a>
+    <a class="zone" href="https://calendar.google.com/calendar/render?cid=https%3A%2F%2Fcalendar.google.com" style="top:25%;right:2%;width:46%;height:28%;"></a>
+    <a class="zone" href="mois.html?type=collectif-ics" style="top:58%;left:2%;width:96%;height:33%;"></a>
   </div>
 
-  <!-- MUR DE L'EQUIPE + BOUTON ROUGE -->
-  <div class="bloc-2" style="position:relative;">
-    <img src="images/mur-changement.png" alt="Mur équipe et changement">
-    <a class="zone-mur" href="https://drive.google.com/drive/folders/1jhmY4Kw-v3-E5WMus77Q73Vghwk5-Cpd" target="_blank"></a>
-    <a class="zone-rouge" href="https://drive.google.com/drive/folders/1XI4-1avrFkj5fLUMF5vgLfPtTaH40AXt" target="_blank"></a>
+  <!-- MUR + BOUTON ROUGE -->
+  <div class="bloc">
+    <img src="images/mur-changement.jpg" alt="Mur et changement" loading="lazy">
+    <a class="zone" href="https://drive.google.com/drive/folders/1jhmY4Kw-v3-E5WMus77Q73Vghwk5-Cpd" target="_blank" style="top:20%;left:2%;width:50%;height:70%;"></a>
+    <a class="zone" href="https://drive.google.com/drive/folders/1XI4-1avrFkj5fLUMF5vgLfPtTaH40AXt" target="_blank" style="top:5%;right:2%;width:44%;height:90%;border-radius:50%;"></a>
   </div>
 
 </div>
