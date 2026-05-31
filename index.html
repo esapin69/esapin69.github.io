@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planning GHE</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #c8aa80;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+    }
+
+    /* L'image principale prend toute la largeur */
+    .image-fond {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Zones cliquables par-dessus l'image */
+    .zones {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .zone {
+      position: absolute;
+      cursor: pointer;
+      border-radius: 12px;
+      /* Décommentez la ligne suivante pour déboguer les positions :
+      background: rgba(255,0,0,0.2); border: 2px solid red; */
+      -webkit-tap-highlight-color: rgba(255,255,255,0.15);
+      transition: background 0.1s;
+    }
+
+    .zone:active {
+      background: rgba(255,255,255,0.18);
+    }
+
+    /* Positions de chaque bouton en % de l'image */
+    .z-jour        { left:3.7%;  top:21.14%; width:43.98%; height:15.38%; }
+    .z-nuit        { left:52.31%;top:21.14%; width:43.98%; height:15.38%; }
+    .z-stagiaires  { left:3.7%;  top:37.89%; width:43.98%; height:12.08%; }
+    .z-chefs       { left:52.31%;top:37.89%; width:43.98%; height:12.08%; }
+    .z-capture     { left:3.7%;  top:54.37%; width:43.98%; height:7.14%;  }
+    .z-agenda      { left:52.31%;top:54.37%; width:43.98%; height:7.14%;  }
+    .z-ios         { left:3.7%;  top:65.07%; width:41.09%; height:6.04%;  }
+    .z-android     { left:52.31%;top:65.07%; width:41.09%; height:6.04%;  }
+    .z-ics         { left:3.7%;  top:73.04%; width:92.59%; height:6.04%;  }
+    .z-mur         { left:3.7%;  top:81.82%; width:55.56%; height:4.94%;  }
+    .z-changement  { left:67.13%;top:89.51%; width:28.94%; height:8.79%;  border-radius: 50%; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- L'image artistique complète -->
+    <img class="image-fond" src="images/accueil.PNG" alt="Planning GHE brancardier">
+
+    <!-- Zones cliquables invisibles par-dessus -->
+    <div class="zones">
+      <a class="zone z-jour"       href="mois.html?type=jour"></a>
+      <a class="zone z-nuit"       href="mois.html?type=nuit"></a>
+      <a class="zone z-stagiaires" href="mois.html?type=stagiaires"></a>
+      <a class="zone z-chefs"      href="mois.html?type=chefs"></a>
+      <a class="zone z-capture"    href="mois.html?type=pdf"></a>
+      <a class="zone z-agenda"     href="mois.html?type=ics"></a>
+      <a class="zone z-ios"        href="webcal://calendar.google.com/calendar/ical/ca4fd5e66513b5e783fba86f6df8e1f73dbd237fc1f83749f3cabb97d273d969%40group.calendar.google.com/private-5a1892e376d3c9b3cc82c5f0ad61c333/basic.ics"></a>
+      <a class="zone z-android"    href="https://calendar.google.com/calendar/render?cid=https%3A%2F%2Fcalendar.google.com"></a>
+      <a class="zone z-ics"        href="mois.html?type=collectif-ics"></a>
+      <a class="zone z-mur"        href="https://drive.google.com/drive/folders/1jhmY4Kw-v3-E5WMus77Q73Vghwk5-Cpd" target="_blank"></a>
+      <a class="zone z-changement" href="https://drive.google.com/drive/folders/1XI4-1avrFkj5fLUMF5vgLfPtTaH40AXt" target="_blank"></a>
+    </div>
+  </div>
+</body>
+</html>
