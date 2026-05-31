@@ -2,29 +2,22 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Planning GHE</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
       width: 100%;
-      height: 100%;
-      overflow-x: hidden;
-    }
-
-    body {
       background: #c8aa80;
     }
 
     .container {
       position: relative;
       width: 100%;
-      max-width: 500px;
-      margin: 0 auto;
     }
 
-    /* Image qui prend TOUTE la largeur */
+    /* Image prend exactement la largeur de l'écran, scroll naturel */
     .image-fond {
       width: 100%;
       height: auto;
@@ -43,45 +36,31 @@
       position: absolute;
       cursor: pointer;
       -webkit-tap-highlight-color: rgba(255,255,255,0.2);
-      border-radius: 14px;
+      border-radius: 12px;
     }
 
     .zone:active {
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.18);
     }
 
-    /* JOUR */
-    .z-jour       { left:3%;   top:21%;  width:44%; height:15.5%; }
-    /* NUIT */
-    .z-nuit       { left:52%;  top:21%;  width:44%; height:15.5%; }
-    /* STAGIAIRES */
-    .z-stagiaires { left:3%;   top:38%;  width:44%; height:12%; }
-    /* CHEFS D'EQUIPE */
-    .z-chefs      { left:52%;  top:38%;  width:44%; height:12%; }
-    /* CAPTURE & IMPRIMER */
-    .z-capture    { left:3%;   top:54%;  width:44%; height:7%; }
-    /* AJOUTER AGENDA */
-    .z-agenda     { left:52%;  top:54%;  width:44%; height:7%; }
-    /* iOS */
-    .z-ios        { left:3%;   top:65%;  width:41%; height:6%; }
-    /* ANDROID */
-    .z-android    { left:52%;  top:65%;  width:41%; height:6%; }
-    /* IMPORT ICS */
-    .z-ics        { left:3%;   top:73%;  width:93%; height:6%; }
-    /* MUR DE L'EQUIPE */
-    .z-mur        { left:3%;   top:82%;  width:56%; height:5%; }
-    /* DEMANDER UN CHANGEMENT (bouton rouge rond) */
-    .z-changement { left:66%;  top:88%;  width:30%; height:10%; border-radius: 50%; }
+    /* Positions en % — s'adaptent à toute taille d'écran */
+    .z-jour        { left:4%;   top:21%;   width:43%; height:15%; }
+    .z-nuit        { left:52%;  top:21%;   width:43%; height:15%; }
+    .z-stagiaires  { left:4%;   top:37.5%; width:43%; height:12%; }
+    .z-chefs       { left:52%;  top:37.5%; width:43%; height:12%; }
+    .z-capture     { left:4%;   top:54%;   width:43%; height:7%;  }
+    .z-agenda      { left:52%;  top:54%;   width:43%; height:7%;  }
+    .z-ios         { left:4%;   top:64.5%; width:40%; height:6%;  }
+    .z-android     { left:52%;  top:64.5%; width:40%; height:6%;  }
+    .z-ics         { left:4%;   top:72.5%; width:92%; height:6%;  }
+    .z-mur         { left:4%;   top:81.5%; width:55%; height:5%;  }
+    .z-changement  { left:66%;  top:88%;   width:28%; height:9%;  border-radius:50%; }
   </style>
 </head>
 <body>
   <div class="container">
-    <img class="image-fond" 
-         src="images/accueil.PNG" 
-         alt="Planning GHE"
-         onload="ajusterZones(this)">
-
-    <div class="zones" id="zones">
+    <img class="image-fond" src="images/accueil.PNG" alt="Planning GHE">
+    <div class="zones">
       <a class="zone z-jour"       href="mois.html?type=jour"></a>
       <a class="zone z-nuit"       href="mois.html?type=nuit"></a>
       <a class="zone z-stagiaires" href="mois.html?type=stagiaires"></a>
@@ -95,12 +74,5 @@
       <a class="zone z-changement" href="https://drive.google.com/drive/folders/1XI4-1avrFkj5fLUMF5vgLfPtTaH40AXt" target="_blank"></a>
     </div>
   </div>
-
-  <script>
-    function ajusterZones(img) {
-      // Les zones sont en % donc elles s'adaptent automatiquement
-      console.log("Image chargée:", img.naturalWidth, "x", img.naturalHeight);
-    }
-  </script>
 </body>
 </html>
