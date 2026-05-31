@@ -25,9 +25,8 @@
 
     .bloc {
       width: 100%;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      /* Suppression du fond blanc + bordure arrondie sans clip */
+      background: transparent;
       position: relative;
     }
 
@@ -35,6 +34,7 @@
       width: 100%;
       height: auto;
       display: block;
+      /* Pas de border-radius ici pour ne pas clipper le fond blanc des JPEG */
     }
 
     .zone {
@@ -51,15 +51,12 @@
 <body>
 <div class="page">
 
-  <!-- HEADER : bloc_planning.jpeg -->
-  <!-- Image 1 : titre + décorations, pas de zone cliquable -->
+  <!-- HEADER -->
   <div class="bloc">
     <img src="Image/Bloc/bloc_planning.jpeg" alt="Planning GHE brancardier" loading="eager">
   </div>
 
-  <!-- PLANNING OFFICIEL : bloc_jour.jpeg -->
-  <!-- 4 boutons : JOUR (haut gauche), NUIT (haut droite), STAGIAIRES (bas gauche), CHEFS D'ÉQUIPE (bas droite) -->
-  <!-- Banderole titre occupe ~22% du haut, boutons démarrent après -->
+  <!-- PLANNING OFFICIEL : JOUR / NUIT / STAGIAIRES / CHEFS -->
   <div class="bloc">
     <img src="Image/Bloc/bloc_jour.jpeg" alt="Planning officiel" loading="eager">
     <a class="zone" href="mois.html?type=jour"       style="top:24%;left:2%;width:46%;height:34%;"></a>
@@ -68,18 +65,14 @@
     <a class="zone" href="mois.html?type=chefs"      style="top:60%;right:2%;width:46%;height:34%;"></a>
   </div>
 
-  <!-- MON PLANNING PERSONNEL : bloc_agenda.jpeg -->
-  <!-- 2 boutons côte à côte : CAPTURE & IMPRIMER (gauche), AJOUTER À MON AGENDA (droite) -->
-  <!-- Banderole ~18% du haut, boutons carrés en dessous -->
+  <!-- MON PLANNING PERSONNEL : CAPTURE / AGENDA -->
   <div class="bloc">
     <img src="Image/Bloc/bloc_agenda.jpeg" alt="Mon planning personnel" loading="lazy">
     <a class="zone" href="mois.html?type=pdf" style="top:20%;left:2%;width:46%;height:76%;"></a>
     <a class="zone" href="mois.html?type=ics" style="top:20%;right:2%;width:46%;height:76%;"></a>
   </div>
 
-  <!-- INFOS ÉQUIPE DU JOUR : bloc_infos.jpeg -->
-  <!-- 3 boutons : iOS (haut gauche), ANDROID (haut droite), IMPORT MANUEL .ICS (bas, pleine largeur) -->
-  <!-- Banderole ~18% du haut -->
+  <!-- INFOS ÉQUIPE DU JOUR : iOS / ANDROID / ICS -->
   <div class="bloc">
     <img src="Image/Bloc/bloc_infos.jpeg" alt="Infos équipe du jour" loading="lazy">
     <a class="zone"
@@ -92,9 +85,7 @@
        style="top:57%;left:3%;width:94%;height:35%;"></a>
   </div>
 
-  <!-- DEMANDER UN CHANGEMENT : bloc_demande.jpeg -->
-  <!-- Banderole titre en haut, gros bouton rond rouge au centre/bas -->
-  <!-- Le bouton rond occupe environ 55% de largeur centré, de 28% à 95% de hauteur -->
+  <!-- DEMANDER UN CHANGEMENT -->
   <div class="bloc">
     <img src="Image/Bloc/bloc_demande.jpeg" alt="Demander un changement" loading="lazy">
     <a class="zone"
