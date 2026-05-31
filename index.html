@@ -9,7 +9,7 @@
 
     html, body {
       width: 100%;
-      background-image: url('images/Fond du site _ couleur.PNG');
+      background-image: url('Image/Fond/Fond.PNG');
       background-size: 300px auto;
       background-repeat: repeat;
     }
@@ -51,43 +51,56 @@
 <body>
 <div class="page">
 
-  <!-- HEADER -->
+  <!-- HEADER : bloc_planning.jpeg -->
+  <!-- Image 1 : titre + décorations, pas de zone cliquable -->
   <div class="bloc">
-    <img src="images/header.jpeg" alt="Planning GHE brancardier" loading="eager">
+    <img src="Image/Bloc/bloc_planning.jpeg" alt="Planning GHE brancardier" loading="eager">
   </div>
 
-  <!-- PLANNING OFFICIEL : JOUR / NUIT / STAGIAIRES / CHEFS -->
+  <!-- PLANNING OFFICIEL : bloc_jour.jpeg -->
+  <!-- 4 boutons : JOUR (haut gauche), NUIT (haut droite), STAGIAIRES (bas gauche), CHEFS D'ÉQUIPE (bas droite) -->
+  <!-- Banderole titre occupe ~22% du haut, boutons démarrent après -->
   <div class="bloc">
-    <img src="images/planning-officiel.jpeg" alt="Planning officiel" loading="eager">
-    <a class="zone" href="mois.html?type=jour"        style="top:15%;left:2%;width:46%;height:37%;"></a>
-    <a class="zone" href="mois.html?type=nuit"        style="top:15%;right:2%;width:46%;height:37%;"></a>
-    <a class="zone" href="mois.html?type=stagiaires"  style="top:55%;left:2%;width:46%;height:40%;"></a>
-    <a class="zone" href="mois.html?type=chefs"       style="top:55%;right:2%;width:46%;height:40%;"></a>
+    <img src="Image/Bloc/bloc_jour.jpeg" alt="Planning officiel" loading="eager">
+    <a class="zone" href="mois.html?type=jour"       style="top:24%;left:2%;width:46%;height:34%;"></a>
+    <a class="zone" href="mois.html?type=nuit"       style="top:24%;right:2%;width:46%;height:34%;"></a>
+    <a class="zone" href="mois.html?type=stagiaires" style="top:60%;left:2%;width:46%;height:34%;"></a>
+    <a class="zone" href="mois.html?type=chefs"      style="top:60%;right:2%;width:46%;height:34%;"></a>
   </div>
 
-  <!-- MON PLANNING PERSONNEL : CAPTURE / AGENDA -->
+  <!-- MON PLANNING PERSONNEL : bloc_agenda.jpeg -->
+  <!-- 2 boutons côte à côte : CAPTURE & IMPRIMER (gauche), AJOUTER À MON AGENDA (droite) -->
+  <!-- Banderole ~18% du haut, boutons carrés en dessous -->
   <div class="bloc">
-    <img src="images/planning-perso.jpeg" alt="Mon planning personnel" loading="lazy">
-    <a class="zone" href="mois.html?type=pdf" style="top:25%;left:2%;width:46%;height:68%;"></a>
-    <a class="zone" href="mois.html?type=ics" style="top:25%;right:2%;width:46%;height:68%;"></a>
+    <img src="Image/Bloc/bloc_agenda.jpeg" alt="Mon planning personnel" loading="lazy">
+    <a class="zone" href="mois.html?type=pdf" style="top:20%;left:2%;width:46%;height:76%;"></a>
+    <a class="zone" href="mois.html?type=ics" style="top:20%;right:2%;width:46%;height:76%;"></a>
   </div>
 
-  <!-- INFOS EQUIPE : iOS / ANDROID / ICS -->
+  <!-- INFOS ÉQUIPE DU JOUR : bloc_infos.jpeg -->
+  <!-- 3 boutons : iOS (haut gauche), ANDROID (haut droite), IMPORT MANUEL .ICS (bas, pleine largeur) -->
+  <!-- Banderole ~18% du haut -->
   <div class="bloc">
-    <img src="images/infos-equipe.jpeg" alt="Infos équipe du jour" loading="lazy">
-    <a class="zone" href="webcal://calendar.google.com/calendar/ical/ca4fd5e66513b5e783fba86f6df8e1f73dbd237fc1f83749f3cabb97d273d969%40group.calendar.google.com/private-5a1892e376d3c9b3cc82c5f0ad61c333/basic.ics"
-       style="top:22%;left:2%;width:46%;height:30%;"></a>
-    <a class="zone" href="https://calendar.google.com/calendar/render?cid=https%3A%2F%2Fcalendar.google.com"
-       style="top:22%;right:2%;width:46%;height:30%;"></a>
+    <img src="Image/Bloc/bloc_infos.jpeg" alt="Infos équipe du jour" loading="lazy">
+    <a class="zone"
+       href="webcal://calendar.google.com/calendar/ical/ca4fd5e66513b5e783fba86f6df8e1f73dbd237fc1f83749f3cabb97d273d969%40group.calendar.google.com/private-5a1892e376d3c9b3cc82c5f0ad61c333/basic.ics"
+       style="top:20%;left:2%;width:46%;height:32%;"></a>
+    <a class="zone"
+       href="https://calendar.google.com/calendar/render?cid=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Fical%2Fca4fd5e66513b5e783fba86f6df8e1f73dbd237fc1f83749f3cabb97d273d969%2540group.calendar.google.com%2Fprivate-5a1892e376d3c9b3cc82c5f0ad61c333%2Fbasic.ics"
+       style="top:20%;right:2%;width:46%;height:32%;"></a>
     <a class="zone" href="mois.html?type=collectif-ics"
-       style="top:58%;left:5%;width:90%;height:35%;"></a>
+       style="top:57%;left:3%;width:94%;height:35%;"></a>
   </div>
 
-  <!-- DEMANDER UN CHANGEMENT -->
+  <!-- DEMANDER UN CHANGEMENT : bloc_demande.jpeg -->
+  <!-- Banderole titre en haut, gros bouton rond rouge au centre/bas -->
+  <!-- Le bouton rond occupe environ 55% de largeur centré, de 28% à 95% de hauteur -->
   <div class="bloc">
-    <img src="images/changement.jpeg" alt="Demander un changement" loading="lazy">
-    <a class="zone" href="https://drive.google.com/drive/folders/1XI4-1avrFkj5fLUMF5vgLfPtTaH40AXt" target="_blank"
-       style="top:20%;left:15%;width:70%;height:75%;border-radius:50%;"></a>
+    <img src="Image/Bloc/bloc_demande.jpeg" alt="Demander un changement" loading="lazy">
+    <a class="zone"
+       href="https://drive.google.com/drive/folders/1XI4-1avrFkj5fLUMF5vgLfPtTaH40AXt"
+       target="_blank"
+       style="top:28%;left:22%;width:56%;height:65%;border-radius:50%;"></a>
   </div>
 
 </div>
