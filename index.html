@@ -4,736 +4,174 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Planning GHE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
       width: 100%;
-      min-height: 100vh;
-      font-family: 'Nunito', sans-serif;
-    }
-
-    body {
       background-image: url('images/Fond du site _ couleur.PNG');
-      background-size: 400px auto;
+      background-size: 300px auto;
       background-repeat: repeat;
     }
 
     .page {
       max-width: 480px;
       margin: 0 auto;
-      padding: 0 12px 50px;
-      position: relative;
-    }
-
-    /* ===== HEADER ===== */
-    .header {
-      position: relative;
-      text-align: center;
-      padding: 16px 0 8px;
-      min-height: 320px;
-    }
-
-    /* Décorations coins */
-    .deco-stethoscope {
-      position: absolute;
-      left: -12px;
-      top: 10px;
-      font-size: 90px;
-      transform: rotate(-20deg);
-      filter: drop-shadow(3px 4px 6px rgba(0,0,0,0.4));
-      z-index: 2;
-      line-height: 1;
-    }
-
-    .deco-moniteur {
-      position: absolute;
-      right: -8px;
-      top: 0px;
-      width: 110px;
-      background: #1a1a2e;
-      border-radius: 10px;
-      border: 3px solid #888;
-      padding: 6px;
-      box-shadow: 3px 4px 12px rgba(0,0,0,0.5);
-      z-index: 2;
-    }
-
-    .moniteur-screen {
-      background: #000d00;
-      border-radius: 4px;
-      padding: 4px 6px;
-      font-size: 10px;
-      font-family: monospace;
-    }
-
-    .moniteur-screen .bpm {
-      color: #00ff44;
-      font-size: 22px;
-      font-weight: bold;
-      line-height: 1;
-    }
-
-    .moniteur-screen .bpm span {
-      font-size: 11px;
-    }
-
-    .moniteur-screen .spo2 {
-      color: #44aaff;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .moniteur-screen .spo2 span {
-      font-size: 10px;
-    }
-
-    .moniteur-screen .ligne-ecg {
-      color: #00ff44;
-      font-size: 8px;
-      letter-spacing: -1px;
-      margin-top: 2px;
-    }
-
-    .moniteur-btn {
-      display: flex;
-      gap: 3px;
-      margin-top: 4px;
-      justify-content: center;
-    }
-
-    .moniteur-btn span {
-      width: 12px;
-      height: 6px;
-      background: #555;
-      border-radius: 2px;
-      display: inline-block;
-    }
-
-    .moniteur-btn span:last-child {
-      width: 18px;
-      background: #2255cc;
-      border-radius: 50%;
-      height: 10px;
-      width: 10px;
-    }
-
-    /* Flacons NaCl */
-    .deco-nacl-left {
-      position: absolute;
-      left: 30px;
-      top: 160px;
-      z-index: 2;
-    }
-
-    .deco-nacl-right {
-      position: absolute;
-      right: 5px;
-      top: 180px;
-      z-index: 2;
-    }
-
-    .flacon {
-      background: rgba(200,220,255,0.7);
-      border: 2px solid rgba(150,180,220,0.8);
-      border-radius: 8px 8px 12px 12px;
-      width: 50px;
-      text-align: center;
-      box-shadow: 2px 3px 8px rgba(0,0,0,0.3);
-      padding: 4px 2px;
-    }
-
-    .flacon-bouchon {
-      width: 20px;
-      height: 8px;
-      background: #2255aa;
-      border-radius: 4px 4px 0 0;
-      margin: 0 auto -2px;
-    }
-
-    .flacon-label {
-      font-size: 9px;
-      font-weight: 900;
-      color: #1a3a8a;
-      line-height: 1.2;
-    }
-
-    /* Pansement */
-    .deco-pansement {
-      position: absolute;
-      left: 18px;
-      top: 220px;
-      font-size: 26px;
-      transform: rotate(15deg);
-      z-index: 2;
-    }
-
-    /* Rouleau sparadrap */
-    .deco-sparadrap {
-      position: absolute;
-      left: 50%;
-      top: 155px;
-      transform: translateX(-50%);
-      font-size: 36px;
-      z-index: 1;
-      opacity: 0.7;
-    }
-
-    /* Titre principal */
-    .titre-zone {
-      position: relative;
-      z-index: 3;
-      padding-top: 10px;
-    }
-
-    .titre-planning {
-      font-family: 'Bangers', cursive;
-      font-size: 2.4rem;
-      letter-spacing: 5px;
-      color: #1a3a6b;
-      text-shadow:
-        2px 2px 0 rgba(255,255,255,0.6),
-        -1px -1px 0 rgba(0,0,0,0.1);
-    }
-
-    .titre-ghe {
-      font-family: 'Bangers', cursive;
-      font-size: 7rem;
-      letter-spacing: 8px;
-      line-height: 0.85;
-      color: #1a3a6b;
-      text-shadow:
-        4px 4px 0 rgba(255,255,255,0.5),
-        6px 6px 0 rgba(0,0,0,0.15),
-        -1px -1px 0 rgba(255,255,255,0.3);
-      /* Effet légèrement 3D */
-      -webkit-text-stroke: 1px rgba(255,255,255,0.3);
-    }
-
-    .titre-brancardier {
-      font-family: 'Nunito', sans-serif;
-      font-size: 1.15rem;
-      font-style: italic;
-      font-weight: 700;
-      color: #1a3a6b;
-      letter-spacing: 2px;
-      margin-top: 2px;
-    }
-
-    .titre-brancardier::after {
-      content: ' ∿∿∿';
-      letter-spacing: -2px;
-    }
-
-    /* ===== BANDEROLES ===== */
-    .banderole {
-      position: relative;
-      text-align: center;
-      margin: 14px -4px 10px;
-      padding: 8px 20px;
-    }
-
-    .banderole::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, #d4c090, #c8a860, #d4c090);
-      border-radius: 4px;
-      box-shadow: 
-        inset 0 2px 4px rgba(255,255,255,0.4),
-        inset 0 -2px 4px rgba(0,0,0,0.1),
-        0 3px 8px rgba(0,0,0,0.2);
-    }
-
-    /* Scotch bleu sur les côtés */
-    .banderole::after {
-      content: '';
-      position: absolute;
-      top: -5px;
-      left: 20px;
-      right: 20px;
-      height: 12px;
-      background: repeating-linear-gradient(
-        90deg,
-        rgba(50,100,180,0.5) 0px,
-        rgba(80,140,220,0.5) 10px,
-        rgba(50,100,180,0.5) 20px
-      );
-      border-radius: 2px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .banderole span {
-      position: relative;
-      z-index: 1;
-      font-family: 'Bangers', cursive;
-      font-size: 1.25rem;
-      letter-spacing: 4px;
-      color: #1a5c40;
-      text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
-    }
-
-    /* ===== GRILLES ===== */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 4px;
-    }
-
-    /* ===== BOUTONS PRINCIPAUX ===== */
-    .btn {
+      padding: 16px 12px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border-radius: 16px;
-      text-decoration: none;
-      cursor: pointer;
-      padding: 16px 8px;
-      position: relative;
-      overflow: hidden;
-      border: 3px solid rgba(255,255,255,0.3);
-      transition: transform 0.12s;
+      gap: 16px;
     }
 
-    .btn:active { transform: scale(0.95); }
-
-    /* Effet usé/texturé sur les boutons */
-    .btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: 
-        radial-gradient(ellipse at 20% 20%, rgba(255,255,255,0.15) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 80%, rgba(0,0,0,0.1) 0%, transparent 60%);
-      border-radius: 13px;
-    }
-
-    /* Bord usé */
-    .btn::after {
-      content: '';
-      position: absolute;
-      inset: 2px;
-      border-radius: 12px;
-      border: 2px solid rgba(255,255,255,0.15);
-      box-shadow: inset 0 0 8px rgba(0,0,0,0.2);
-    }
-
-    .btn-emoji {
-      font-size: 3.5rem;
-      filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.4));
-      margin-bottom: 6px;
-      z-index: 1;
-    }
-
-    .btn-label {
-      font-family: 'Bangers', cursive;
-      font-size: 1.75rem;
-      letter-spacing: 2px;
-      color: white;
-      text-shadow:
-        2px 2px 4px rgba(0,0,0,0.5),
-        0 0 10px rgba(0,0,0,0.3);
-      z-index: 1;
-      text-align: center;
-      line-height: 1.1;
-    }
-
-    /* JOUR — bleu royal */
-    .btn-jour {
-      background: linear-gradient(145deg, #3366cc, #1a3a8a, #0d2060);
-      box-shadow:
-        0 8px 20px rgba(20,50,150,0.5),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      min-height: 160px;
-      border-color: rgba(255,255,255,0.25);
-    }
-
-    /* NUIT — bleu très foncé */
-    .btn-nuit {
-      background: linear-gradient(145deg, #1a2550, #0d1535, #060d20);
-      box-shadow:
-        0 8px 20px rgba(5,10,40,0.6),
-        inset 0 1px 0 rgba(255,255,255,0.1);
-      min-height: 160px;
-      border-color: rgba(255,255,255,0.15);
-    }
-
-    /* STAGIAIRES — orange doré */
-    .btn-stagiaires {
-      background: linear-gradient(145deg, #e8a020, #c47800, #9a5800);
-      box-shadow:
-        0 8px 20px rgba(180,100,0,0.5),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      min-height: 130px;
-      border-color: rgba(255,220,100,0.3);
-    }
-
-    /* CHEFS — violet */
-    .btn-chefs {
-      background: linear-gradient(145deg, #6633aa, #3d1a77, #250d55);
-      box-shadow:
-        0 8px 20px rgba(80,20,150,0.5),
-        inset 0 1px 0 rgba(255,255,255,0.15);
-      min-height: 130px;
-      border-color: rgba(200,150,255,0.25);
-    }
-
-    /* ===== BOUTONS PLANNING PERSONNEL ===== */
-    .btn-perso {
-      flex-direction: row;
-      min-height: 80px;
-      padding: 12px 14px;
-      gap: 12px;
-      border-radius: 14px;
-    }
-
-    .btn-perso .btn-emoji {
-      font-size: 2.4rem;
-      margin-bottom: 0;
-    }
-
-    .btn-perso .btn-label {
-      font-size: 1.1rem;
-      text-align: left;
-    }
-
-    /* Teal foncé */
-    .btn-teal {
-      background: linear-gradient(145deg, #1a7a5a, #0d5a40, #084030);
-      box-shadow:
-        0 6px 16px rgba(10,80,50,0.5),
-        inset 0 1px 0 rgba(255,255,255,0.15);
-      border-color: rgba(100,220,170,0.25);
-    }
-
-    /* ===== BOUTONS INFOS EQUIPE ===== */
-    .btn-infos {
-      flex-direction: row;
-      min-height: 70px;
-      padding: 10px 14px;
-      gap: 12px;
-      border-radius: 30px;
-    }
-
-    .btn-infos .btn-emoji {
-      font-size: 2rem;
-      margin-bottom: 0;
-    }
-
-    .btn-infos .btn-label {
-      font-size: 1.1rem;
-      text-align: left;
-    }
-
-    .btn-infos .btn-sub {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.75);
-      font-weight: 700;
-      display: block;
-    }
-
-    .btn-ios {
-      background: linear-gradient(145deg, #2d5fcc, #1a3a8a);
-      box-shadow: 0 6px 16px rgba(20,50,150,0.5);
-      border-radius: 30px;
-      border-color: rgba(255,255,255,0.25);
-    }
-
-    .btn-android {
-      background: linear-gradient(145deg, #3a8a20, #1a5a0a);
-      box-shadow: 0 6px 16px rgba(30,100,10,0.5);
-      border-radius: 30px;
-      border-color: rgba(150,255,80,0.25);
-    }
-
-    /* ICS pleine largeur */
-    .btn-ics-full {
+    /* Chaque bloc est une image cliquable */
+    .bloc {
       width: 100%;
-      flex-direction: row;
-      min-height: 70px;
-      padding: 12px 20px;
-      gap: 14px;
-      border-radius: 30px;
-      margin: 6px 0;
-      background: linear-gradient(145deg, #6633aa, #3d1a77);
-      box-shadow: 0 6px 16px rgba(80,20,150,0.5);
-      border-color: rgba(200,150,255,0.25);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      display: block;
+      position: relative;
     }
 
-    .btn-ics-full .btn-emoji { font-size: 2rem; margin-bottom: 0; }
-    .btn-ics-full .btn-label { font-size: 1.1rem; text-align: left; }
-    .btn-ics-full .btn-sub {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.75);
-      font-weight: 700;
+    .bloc img {
+      width: 100%;
+      height: auto;
       display: block;
     }
 
-    /* ===== BAS DE PAGE ===== */
-    .bas-page {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-top: 8px;
+    /* Bloc avec 2 zones cliquables côte à côte */
+    .bloc-2 {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      position: relative;
     }
 
-    /* MUR DE L'EQUIPE — beige discret */
-    .btn-mur {
-      flex: 1;
-      flex-direction: row;
-      min-height: 60px;
-      padding: 10px 14px;
-      gap: 10px;
-      border-radius: 14px;
-      background: linear-gradient(145deg, rgba(210,190,150,0.85), rgba(185,160,115,0.85));
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      border-color: rgba(150,120,70,0.4);
+    .bloc-2 img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
-    .btn-mur .btn-emoji { font-size: 1.8rem; margin-bottom: 0; }
-    .btn-mur .btn-label {
-      font-size: 1rem;
-      color: #2a1a00;
-      text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
-    }
-
-    /* DEMANDER UN CHANGEMENT — bouton rouge rond */
-    .btn-urgence-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .btn-urgence {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 30%, #ff4444, #cc0000, #880000);
-      border: 4px solid #ff8888;
-      box-shadow:
-        0 6px 20px rgba(180,0,0,0.6),
-        inset 0 -4px 8px rgba(0,0,0,0.3),
-        inset 0 4px 8px rgba(255,150,150,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
+    .zone-g, .zone-d {
+      position: absolute;
+      top: 20%;
+      height: 75%;
+      width: 48%;
       cursor: pointer;
-      animation: pulse-rouge 1.8s infinite;
-      position: relative;
+      border-radius: 12px;
+      -webkit-tap-highlight-color: rgba(255,255,255,0.2);
     }
 
-    .btn-urgence::before {
-      content: '';
+    .zone-g { left: 2%; }
+    .zone-d { right: 2%; }
+    .zone-g:active, .zone-d:active { background: rgba(255,255,255,0.15); }
+
+    /* Bloc avec 3 zones : iOS, Android, ICS */
+    .zone-ios {
       position: absolute;
-      top: 10px;
-      left: 12px;
-      width: 28px;
-      height: 18px;
-      background: radial-gradient(ellipse, rgba(255,200,200,0.5), transparent);
+      top: 25%;
+      left: 2%;
+      width: 46%;
+      height: 28%;
+      cursor: pointer;
+      border-radius: 12px;
+      -webkit-tap-highlight-color: rgba(255,255,255,0.2);
+    }
+
+    .zone-android {
+      position: absolute;
+      top: 25%;
+      right: 2%;
+      width: 46%;
+      height: 28%;
+      cursor: pointer;
+      border-radius: 12px;
+      -webkit-tap-highlight-color: rgba(255,255,255,0.2);
+    }
+
+    .zone-ics {
+      position: absolute;
+      top: 60%;
+      left: 2%;
+      width: 96%;
+      height: 33%;
+      cursor: pointer;
+      border-radius: 12px;
+      -webkit-tap-highlight-color: rgba(255,255,255,0.2);
+    }
+
+    .zone-ios:active, .zone-android:active, .zone-ics:active {
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* Bloc bas : mur + bouton rouge */
+    .zone-mur {
+      position: absolute;
+      top: 20%;
+      left: 2%;
+      width: 50%;
+      height: 70%;
+      cursor: pointer;
+      border-radius: 12px;
+      -webkit-tap-highlight-color: rgba(255,255,255,0.2);
+    }
+
+    .zone-rouge {
+      position: absolute;
+      top: 5%;
+      right: 2%;
+      width: 44%;
+      height: 90%;
+      cursor: pointer;
       border-radius: 50%;
+      -webkit-tap-highlight-color: rgba(255,255,255,0.2);
     }
 
-    /* Rayons autour du bouton rouge */
-    .btn-urgence-wrap::before {
-      content: '⚡';
-      font-size: 14px;
-      position: absolute;
-      top: -8px;
-      right: -10px;
+    .zone-mur:active, .zone-rouge:active {
+      background: rgba(255,255,255,0.15);
     }
-
-    @keyframes pulse-rouge {
-      0%, 100% { 
-        box-shadow: 0 6px 20px rgba(180,0,0,0.6), inset 0 -4px 8px rgba(0,0,0,0.3);
-        transform: scale(1);
-      }
-      50% { 
-        box-shadow: 0 6px 30px rgba(220,0,0,0.9), inset 0 -4px 8px rgba(0,0,0,0.3);
-        transform: scale(1.04);
-      }
-    }
-
-    .btn-urgence-label {
-      font-family: 'Bangers', cursive;
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      color: #8a0000;
-      text-align: center;
-      text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
-      line-height: 1.1;
-      max-width: 80px;
-    }
-
-    /* Note décorative */
-    .note-deco {
-      background: rgba(255,255,230,0.85);
-      border-radius: 4px;
-      padding: 10px 12px;
-      font-size: 0.78rem;
-      color: #333;
-      font-style: italic;
-      text-align: center;
-      box-shadow: 2px 3px 8px rgba(0,0,0,0.15), -1px -1px 0 rgba(0,0,0,0.05);
-      margin: 10px 0 0;
-      border-left: 3px solid #e74c3c;
-      position: relative;
-    }
-
-    .note-deco::before {
-      content: '📎';
-      position: absolute;
-      top: -10px;
-      right: 10px;
-    }
-
-    /* Espace */
-    .sep { height: 8px; }
   </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- ===== HEADER ===== -->
-  <div class="header">
-    <!-- Stéthoscope -->
-    <div class="deco-stethoscope">🩺</div>
-
-    <!-- Moniteur cardiaque -->
-    <div class="deco-moniteur">
-      <div class="moniteur-screen">
-        <div class="bpm">72 <span>bpm ♥</span></div>
-        <div class="ligne-ecg">∿⌇∿∿⌇∿∿</div>
-        <div class="spo2">98<span>%</span></div>
-      </div>
-      <div class="moniteur-btn">
-        <span></span><span></span><span style="border-radius:50%;background:#2255cc;width:10px;height:10px;"></span>
-      </div>
-    </div>
-
-    <!-- Flacon NaCl gauche -->
-    <div class="deco-nacl-left">
-      <div class="flacon-bouchon"></div>
-      <div class="flacon">
-        <div class="flacon-label">NaCl<br>0,9%</div>
-      </div>
-    </div>
-
-    <!-- Pansement -->
-    <div class="deco-pansement">🩹</div>
-
-    <!-- Rouleau sparadrap -->
-    <div class="deco-sparadrap">🧻</div>
-
-    <!-- Flacon NaCl droit (poche perf) -->
-    <div class="deco-nacl-right">
-      <div class="flacon" style="width:55px;border-radius:10px 10px 20px 20px;">
-        <div class="flacon-label">NaCl<br>0,9%</div>
-        <div style="font-size:18px;">💉</div>
-      </div>
-    </div>
-
-    <!-- Titre -->
-    <div class="titre-zone">
-      <div class="titre-planning">PLANNING</div>
-      <div class="titre-ghe">GHE</div>
-      <div class="titre-brancardier">brancardier</div>
-    </div>
+  <!-- HEADER -->
+  <div class="bloc">
+    <img src="images/header.png" alt="Planning GHE brancardier">
   </div>
 
-  <!-- PLANNING OFFICIEL -->
-  <div class="banderole"><span>PLANNING OFFICIEL</span></div>
-
-  <!-- JOUR + NUIT -->
-  <div class="grid-2">
-    <a href="mois.html?type=jour" class="btn btn-jour">
-      <div class="btn-emoji">☀️</div>
-      <div class="btn-label">JOUR</div>
-    </a>
-    <a href="mois.html?type=nuit" class="btn btn-nuit">
-      <div class="btn-emoji">🌙</div>
-      <div class="btn-label">NUIT</div>
-    </a>
+  <!-- PLANNING OFFICIEL : JOUR / NUIT / STAGIAIRES / CHEFS -->
+  <div class="bloc-2">
+    <img src="images/planning-officiel.png" alt="Planning officiel">
+    <a class="zone-g" href="mois.html?type=jour" style="top:18%;height:36%;"></a>
+    <a class="zone-d" href="mois.html?type=nuit" style="top:18%;height:36%;"></a>
+    <a class="zone-g" href="mois.html?type=stagiaires" style="top:57%;height:36%;"></a>
+    <a class="zone-d" href="mois.html?type=chefs" style="top:57%;height:36%;"></a>
   </div>
 
-  <div class="sep"></div>
-
-  <!-- STAGIAIRES + CHEFS -->
-  <div class="grid-2">
-    <a href="mois.html?type=stagiaires" class="btn btn-stagiaires">
-      <div class="btn-emoji">🎓</div>
-      <div class="btn-label">STAGIAIRES</div>
-    </a>
-    <a href="mois.html?type=chefs" class="btn btn-chefs">
-      <div class="btn-emoji">👥</div>
-      <div class="btn-label">CHEFS D'ÉQUIPE</div>
-    </a>
+  <!-- MON PLANNING PERSONNEL : CAPTURE / AGENDA -->
+  <div class="bloc-2">
+    <img src="images/planning-perso.png" alt="Mon planning personnel">
+    <a class="zone-g" href="mois.html?type=pdf" style="top:35%;height:55%;"></a>
+    <a class="zone-d" href="mois.html?type=ics" style="top:35%;height:55%;"></a>
   </div>
 
-  <!-- MON PLANNING PERSONNEL -->
-  <div class="banderole"><span>MON PLANNING PERSONNEL</span></div>
-
-  <!-- CAPTURE + AGENDA -->
-  <div class="grid-2">
-    <a href="mois.html?type=pdf" class="btn btn-teal btn-perso">
-      <div class="btn-emoji">🖨️</div>
-      <div class="btn-label">CAPTURE &amp;<br>IMPRIMER</div>
-    </a>
-    <a href="mois.html?type=ics" class="btn btn-teal btn-perso">
-      <div class="btn-emoji">📅</div>
-      <div class="btn-label">AJOUTER À<br>MON AGENDA</div>
-    </a>
+  <!-- INFOS EQUIPE : iOS / ANDROID / ICS -->
+  <div class="bloc-2" style="position:relative;">
+    <img src="images/infos-equipe.png" alt="Infos équipe du jour">
+    <a class="zone-ios" href="webcal://calendar.google.com/calendar/ical/ca4fd5e66513b5e783fba86f6df8e1f73dbd237fc1f83749f3cabb97d273d969%40group.calendar.google.com/private-5a1892e376d3c9b3cc82c5f0ad61c333/basic.ics"></a>
+    <a class="zone-android" href="https://calendar.google.com/calendar/render?cid=https%3A%2F%2Fcalendar.google.com"></a>
+    <a class="zone-ics" href="mois.html?type=collectif-ics"></a>
   </div>
 
-  <!-- INFOS EQUIPE DU JOUR -->
-  <div class="banderole"><span>INFOS ÉQUIPE DU JOUR</span></div>
-
-  <!-- iOS + ANDROID -->
-  <div class="grid-2">
-    <a href="webcal://calendar.google.com/calendar/ical/ca4fd5e66513b5e783fba86f6df8e1f73dbd237fc1f83749f3cabb97d273d969%40group.calendar.google.com/private-5a1892e376d3c9b3cc82c5f0ad61c333/basic.ics" class="btn btn-ios btn-infos">
-      <div class="btn-emoji">🍎</div>
-      <div>
-        <div class="btn-label">iOS</div>
-        <span class="btn-sub">iPhone / iPad</span>
-      </div>
-    </a>
-    <a href="https://calendar.google.com/calendar/render?cid=https%3A%2F%2Fcalendar.google.com" class="btn btn-android btn-infos">
-      <div class="btn-emoji">🤖</div>
-      <div class="btn-label">ANDROID</div>
-    </a>
+  <!-- MUR DE L'EQUIPE + BOUTON ROUGE -->
+  <div class="bloc-2" style="position:relative;">
+    <img src="images/mur-changement.png" alt="Mur équipe et changement">
+    <a class="zone-mur" href="https://drive.google.com/drive/folders/1jhmY4Kw-v3-E5WMus77Q73Vghwk5-Cpd" target="_blank"></a>
+    <a class="zone-rouge" href="https://drive.google.com/drive/folders/1XI4-1avrFkj5fLUMF5vgLfPtTaH40AXt" target="_blank"></a>
   </div>
-
-  <div class="sep"></div>
-
-  <!-- IMPORT ICS -->
-  <a href="mois.html?type=collectif-ics" class="btn btn-ics-full">
-    <div class="btn-emoji">📥</div>
-    <div>
-      <div class="btn-label">IMPORT MANUEL (.ICS)</div>
-      <span class="btn-sub">Télécharger le calendrier</span>
-    </div>
-  </a>
-
-  <!-- BAS : MUR + BOUTON ROUGE -->
-  <div class="bas-page">
-    <a href="https://drive.google.com/drive/folders/1jhmY4Kw-v3-E5WMus77Q73Vghwk5-Cpd" target="_blank" class="btn btn-mur">
-      <div class="btn-emoji">👥</div>
-      <div class="btn-label">MUR DE L'ÉQUIPE</div>
-    </a>
-    <div class="btn-urgence-wrap" style="position:relative;">
-      <a href="https://drive.google.com/drive/folders/1XI4-1avrFkj5fLUMF5vgLfPtTaH40AXt" target="_blank" class="btn-urgence"></a>
-      <div class="btn-urgence-label">DEMANDER<br>UN<br>CHANGEMENT</div>
-    </div>
-  </div>
-
-  <!-- Note -->
-  <div class="note-deco">❤️ On prend soin les uns des autres, chaque jour.</div>
 
 </div>
 </body>
