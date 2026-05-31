@@ -17,17 +17,17 @@
     .page {
       max-width: 480px;
       margin: 0 auto;
-      padding: 16px 12px;
+      padding: 12px 10px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
     }
 
     .bloc {
       width: 100%;
-      border-radius: 16px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
       position: relative;
     }
 
@@ -44,6 +44,8 @@
       -webkit-tap-highlight-color: rgba(255,255,255,0.2);
     }
     .zone:active { background: rgba(255,255,255,0.15); }
+
+    a { text-decoration: none; }
   </style>
 </head>
 <body>
@@ -51,38 +53,41 @@
 
   <!-- HEADER -->
   <div class="bloc">
-    <img src="images/header.jpg" alt="Planning GHE" loading="eager">
+    <img src="images/header.jpg" alt="Planning GHE brancardier" loading="eager">
   </div>
 
-  <!-- PLANNING OFFICIEL -->
+  <!-- PLANNING OFFICIEL : JOUR / NUIT / STAGIAIRES / CHEFS -->
   <div class="bloc">
     <img src="images/planning-officiel.jpg" alt="Planning officiel" loading="eager">
-    <a class="zone" href="mois.html?type=jour"       style="top:18%;left:2%;width:46%;height:36%;"></a>
-    <a class="zone" href="mois.html?type=nuit"       style="top:18%;right:2%;width:46%;height:36%;"></a>
-    <a class="zone" href="mois.html?type=stagiaires" style="top:57%;left:2%;width:46%;height:36%;"></a>
-    <a class="zone" href="mois.html?type=chefs"      style="top:57%;right:2%;width:46%;height:36%;"></a>
+    <a class="zone" href="mois.html?type=jour"        style="top:15%;left:2%;width:46%;height:37%;"></a>
+    <a class="zone" href="mois.html?type=nuit"        style="top:15%;right:2%;width:46%;height:37%;"></a>
+    <a class="zone" href="mois.html?type=stagiaires"  style="top:55%;left:2%;width:46%;height:40%;"></a>
+    <a class="zone" href="mois.html?type=chefs"       style="top:55%;right:2%;width:46%;height:40%;"></a>
   </div>
 
-  <!-- MON PLANNING PERSONNEL -->
+  <!-- MON PLANNING PERSONNEL : CAPTURE / AGENDA -->
   <div class="bloc">
     <img src="images/planning-perso.jpg" alt="Mon planning personnel" loading="lazy">
-    <a class="zone" href="mois.html?type=pdf" style="top:35%;left:2%;width:46%;height:55%;"></a>
-    <a class="zone" href="mois.html?type=ics" style="top:35%;right:2%;width:46%;height:55%;"></a>
+    <a class="zone" href="mois.html?type=pdf" style="top:25%;left:2%;width:46%;height:68%;"></a>
+    <a class="zone" href="mois.html?type=ics" style="top:25%;right:2%;width:46%;height:68%;"></a>
   </div>
 
-  <!-- INFOS EQUIPE -->
+  <!-- INFOS EQUIPE : iOS / ANDROID / ICS -->
   <div class="bloc">
-    <img src="images/infos-equipe.jpg" alt="Infos équipe" loading="lazy">
-    <a class="zone" href="webcal://calendar.google.com/calendar/ical/ca4fd5e66513b5e783fba86f6df8e1f73dbd237fc1f83749f3cabb97d273d969%40group.calendar.google.com/private-5a1892e376d3c9b3cc82c5f0ad61c333/basic.ics" style="top:25%;left:2%;width:46%;height:28%;"></a>
-    <a class="zone" href="https://calendar.google.com/calendar/render?cid=https%3A%2F%2Fcalendar.google.com" style="top:25%;right:2%;width:46%;height:28%;"></a>
-    <a class="zone" href="mois.html?type=collectif-ics" style="top:58%;left:2%;width:96%;height:33%;"></a>
+    <img src="images/infos-equipe.jpg" alt="Infos équipe du jour" loading="lazy">
+    <a class="zone" href="webcal://calendar.google.com/calendar/ical/ca4fd5e66513b5e783fba86f6df8e1f73dbd237fc1f83749f3cabb97d273d969%40group.calendar.google.com/private-5a1892e376d3c9b3cc82c5f0ad61c333/basic.ics"
+       style="top:22%;left:2%;width:46%;height:30%;"></a>
+    <a class="zone" href="https://calendar.google.com/calendar/render?cid=https%3A%2F%2Fcalendar.google.com"
+       style="top:22%;right:2%;width:46%;height:30%;"></a>
+    <a class="zone" href="mois.html?type=collectif-ics"
+       style="top:58%;left:5%;width:90%;height:35%;"></a>
   </div>
 
-  <!-- MUR + BOUTON ROUGE -->
+  <!-- DEMANDER UN CHANGEMENT -->
   <div class="bloc">
-    <img src="images/mur-changement.jpg" alt="Mur et changement" loading="lazy">
-    <a class="zone" href="https://drive.google.com/drive/folders/1jhmY4Kw-v3-E5WMus77Q73Vghwk5-Cpd" target="_blank" style="top:20%;left:2%;width:50%;height:70%;"></a>
-    <a class="zone" href="https://drive.google.com/drive/folders/1XI4-1avrFkj5fLUMF5vgLfPtTaH40AXt" target="_blank" style="top:5%;right:2%;width:44%;height:90%;border-radius:50%;"></a>
+    <img src="images/changement.jpg" alt="Demander un changement" loading="lazy">
+    <a class="zone" href="https://drive.google.com/drive/folders/1XI4-1avrFkj5fLUMF5vgLfPtTaH40AXt" target="_blank"
+       style="top:20%;left:15%;width:70%;height:75%;border-radius:50%;"></a>
   </div>
 
 </div>
