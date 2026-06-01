@@ -17,24 +17,35 @@
     .page {
       max-width: 480px;
       margin: 0 auto;
-      padding: 12px 10px;
+      padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 12px;
     }
 
     .bloc {
       width: 100%;
-      /* Suppression du fond blanc + bordure arrondie sans clip */
-      background: transparent;
       position: relative;
+      display: block;
+      line-height: 0;
     }
 
     .bloc img {
       width: 100%;
       height: auto;
       display: block;
-      /* Pas de border-radius ici pour ne pas clipper le fond blanc des JPEG */
+    }
+
+    .couture {
+      width: 100%;
+      line-height: 0;
+      margin-top: -2px;
+      margin-bottom: -2px;
+    }
+
+    .couture img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
     .zone {
@@ -56,7 +67,9 @@
     <img src="Image/Bloc/bloc_planning.jpeg" alt="Planning GHE brancardier" loading="eager">
   </div>
 
-  <!-- PLANNING OFFICIEL : JOUR / NUIT / STAGIAIRES / CHEFS -->
+  <div class="couture"><img src="Image/Couture/couture.jpeg" alt=""></div>
+
+  <!-- PLANNING OFFICIEL -->
   <div class="bloc">
     <img src="Image/Bloc/bloc_jour.jpeg" alt="Planning officiel" loading="eager">
     <a class="zone" href="mois.html?type=jour"       style="top:24%;left:2%;width:46%;height:34%;"></a>
@@ -65,14 +78,18 @@
     <a class="zone" href="mois.html?type=chefs"      style="top:60%;right:2%;width:46%;height:34%;"></a>
   </div>
 
-  <!-- MON PLANNING PERSONNEL : CAPTURE / AGENDA -->
+  <div class="couture"><img src="Image/Couture/couture.jpeg" alt=""></div>
+
+  <!-- MON PLANNING PERSONNEL -->
   <div class="bloc">
     <img src="Image/Bloc/bloc_agenda.jpeg" alt="Mon planning personnel" loading="lazy">
     <a class="zone" href="mois.html?type=pdf" style="top:20%;left:2%;width:46%;height:76%;"></a>
     <a class="zone" href="mois.html?type=ics" style="top:20%;right:2%;width:46%;height:76%;"></a>
   </div>
 
-  <!-- INFOS ÉQUIPE DU JOUR : iOS / ANDROID / ICS -->
+  <div class="couture"><img src="Image/Couture/couture.jpeg" alt=""></div>
+
+  <!-- INFOS ÉQUIPE DU JOUR -->
   <div class="bloc">
     <img src="Image/Bloc/bloc_infos.jpeg" alt="Infos équipe du jour" loading="lazy">
     <a class="zone"
@@ -85,11 +102,13 @@
        style="top:57%;left:3%;width:94%;height:35%;"></a>
   </div>
 
+  <div class="couture"><img src="Image/Couture/couture.jpeg" alt=""></div>
+
   <!-- DEMANDER UN CHANGEMENT -->
   <div class="bloc">
     <img src="Image/Bloc/bloc_demande.jpeg" alt="Demander un changement" loading="lazy">
     <a class="zone"
-       href="https://drive.google.com/drive/folders/1XI4-1avrFkj5fLUMF5vgLfPtTaH40AXt"
+       href="https://docs.google.com/forms/d/e/1FAIpQLSeSD74DbSRNuiu1gF2waVTPdSg38jwRCwk3mp6XwpX-sRyh_g/viewform"
        target="_blank"
        style="top:28%;left:22%;width:56%;height:65%;border-radius:50%;"></a>
   </div>
