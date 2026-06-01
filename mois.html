@@ -9,8 +9,8 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background-image: url('images/Fond du site _ couleur.PNG');
-      background-size: cover;
+      background-image: url('Image/Fond/Fond.PNG');
+      background-size: 300px auto;
       background-repeat: repeat;
       font-family: 'Nunito', sans-serif;
       min-height: 100vh;
@@ -23,7 +23,6 @@
       padding: 20px 16px 40px;
     }
 
-    /* RETOUR */
     .btn-retour {
       display: inline-flex;
       align-items: center;
@@ -37,17 +36,13 @@
       font-size: 0.95rem;
       text-decoration: none;
       margin-bottom: 20px;
-      transition: background 0.2s;
     }
-
     .btn-retour:active { background: rgba(255,255,255,0.8); }
 
-    /* TITRE */
     .titre-page {
       text-align: center;
       margin-bottom: 24px;
     }
-
     .titre-page h1 {
       font-family: 'Bangers', cursive;
       font-size: 2rem;
@@ -55,7 +50,6 @@
       letter-spacing: 3px;
       text-shadow: 2px 2px 0 rgba(255,255,255,0.5);
     }
-
     .titre-page p {
       font-size: 0.9rem;
       color: #3a5a3a;
@@ -63,7 +57,6 @@
       margin-top: 4px;
     }
 
-    /* CARTES MOIS */
     .mois-container {
       display: flex;
       flex-direction: column;
@@ -75,130 +68,84 @@
       overflow: hidden;
       box-shadow: 0 8px 24px rgba(0,0,0,0.25);
       cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
       text-decoration: none;
       display: block;
       border: 3px solid rgba(255,255,255,0.5);
     }
+    .carte-mois:active { transform: scale(0.97); }
+    .carte-mois img { width: 100%; height: auto; display: block; }
 
-    .carte-mois:active {
-      transform: scale(0.97);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-
-    .carte-mois img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* Message chargement */
-    .chargement {
-      text-align: center;
-      padding: 40px 20px;
-      color: #1a3a6b;
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-
-    /* Message erreur */
-    .erreur {
-      background: rgba(255,220,220,0.8);
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      color: #8a0000;
-      font-weight: 700;
-      margin: 20px 0;
-    }
+    .chargement { text-align: center; padding: 40px 20px; color: #1a3a6b; font-size: 1.1rem; font-weight: 700; }
+    .erreur { background: rgba(255,220,220,0.8); border-radius: 12px; padding: 20px; text-align: center; color: #8a0000; font-weight: 700; margin: 20px 0; }
   </style>
 </head>
 <body>
   <div class="page">
-
     <a href="index.html" class="btn-retour">← Retour</a>
-
     <div class="titre-page">
       <h1 id="titre-type">Planning</h1>
       <p id="sous-titre">Choisissez votre mois</p>
     </div>
-
     <div class="mois-container" id="mois-container">
       <div class="chargement">⏳ Chargement...</div>
     </div>
-
   </div>
 
   <script>
-    // Noms des mois en français
-    const NOMS_MOIS = [
+    // Noms des mois SANS accents = noms des fichiers dans Image/mois/
+    const NOMS_MOIS_FICHIER = [
+      'Janvier','Fevrier','Mars','Avril','Mai','Juin',
+      'Juillet','Aout','Septembre','Octobre','Novembre','Decembre'
+    ];
+
+    // Noms affichés avec accents
+    const NOMS_MOIS_AFFICHE = [
       'Janvier','Février','Mars','Avril','Mai','Juin',
       'Juillet','Août','Septembre','Octobre','Novembre','Décembre'
     ];
 
-    // Titres selon le type
     const TITRES = {
-      'jour': 'Planning Jour ☀️',
-      'nuit': 'Planning Nuit 🌙',
-      'stagiaires': 'Planning Stagiaires 🎓',
-      'chefs': 'Planning Chefs d\'équipe 👥',
-      'pdf': 'Capture & Imprimer 🖨️',
-      'ics': 'Ajouter à mon agenda 📅',
-      'collectif-ics': 'Import Manuel (.ICS) 📥'
+      'jour':         'Planning Jour ☀️',
+      'nuit':         'Planning Nuit 🌙',
+      'stagiaires':   'Planning Stagiaires 🎓',
+      'chefs':        'Planning Chefs d\'équipe 👥',
+      'pdf':          'Capture & Imprimer 🖨️',
+      'ics':          'Ajouter à mon agenda 📅',
+      'collectif-ics':'Import Manuel (.ICS) 📥'
     };
 
-    // Récupérer le type depuis l'URL
     const params = new URLSearchParams(window.location.search);
     const type = params.get('type') || 'jour';
-
-    // Afficher le titre
     document.getElementById('titre-type').textContent = TITRES[type] || 'Planning';
 
-    // Calculer les mois à afficher
     function getMoisAAfficher() {
       const now = new Date();
       const jour = now.getDate();
-      const moisIndex = now.getMonth(); // 0-11
+      const moisIndex = now.getMonth();
       const annee = now.getFullYear();
-
-      const mois = [];
-
-      // Toujours le mois actuel
-      mois.push({ moisIndex: moisIndex, annee: annee });
-
-      // À partir du 20, ajouter le mois suivant
+      const mois = [{ moisIndex, annee }];
       if (jour >= 20) {
-        let moisSuivantIndex = moisIndex + 1;
-        let anneeSuivante = annee;
-        if (moisSuivantIndex > 11) {
-          moisSuivantIndex = 0;
-          anneeSuivante++;
-        }
-        mois.push({ moisIndex: moisSuivantIndex, annee: anneeSuivante });
+        let m = moisIndex + 1, a = annee;
+        if (m > 11) { m = 0; a++; }
+        mois.push({ moisIndex: m, annee: a });
       }
-
       return mois;
     }
 
-    // Formater la clé pour le JSON : "06.2026"
     function formatCle(moisIndex, annee) {
-      const moisNum = String(moisIndex + 1).padStart(2, '0');
-      return `${moisNum}.${annee}`;
+      return `${String(moisIndex + 1).padStart(2, '0')}.${annee}`;
     }
 
-    // Nom de l'image : "Juin 2026.PNG"
-    function nomImage(moisIndex, annee) {
-      return `images/${NOMS_MOIS[moisIndex]} ${annee}.PNG`;
+    // Image : Image/mois/Juin.jpeg (sans année, sans accent)
+    function nomImage(moisIndex) {
+      return `Image/mois/${NOMS_MOIS_FICHIER[moisIndex]}.jpeg`;
     }
 
-    // Charger le JSON et afficher les cartes
     async function charger() {
       const container = document.getElementById('mois-container');
-
       try {
         const response = await fetch('liens-a-modifier.json');
         const liens = await response.json();
-
         const moisAAfficher = getMoisAAfficher();
         container.innerHTML = '';
 
@@ -207,18 +154,15 @@
           const lien = liens[type] && liens[type][cle];
 
           if (!lien) {
-            container.innerHTML += `<div class="erreur">⚠️ Lien non trouvé pour ${NOMS_MOIS[moisIndex]} ${annee}</div>`;
+            container.innerHTML += `<div class="erreur">⚠️ Lien non trouvé pour ${NOMS_MOIS_AFFICHE[moisIndex]} ${annee}</div>`;
             continue;
           }
-
-          const img = nomImage(moisIndex, annee);
 
           const carte = document.createElement('a');
           carte.href = lien;
           carte.target = '_blank';
           carte.className = 'carte-mois';
-          carte.innerHTML = `<img src="${img}" alt="${NOMS_MOIS[moisIndex]} ${annee}" loading="lazy">`;
-
+          carte.innerHTML = `<img src="${nomImage(moisIndex)}" alt="${NOMS_MOIS_AFFICHE[moisIndex]} ${annee}" loading="lazy">`;
           container.appendChild(carte);
         }
 
