@@ -7,6 +7,7 @@
 <meta name="description" content="Carnet de coaching évolutif : séances, contraintes, ressenti, calendrier et progression.">
 <title>Mon accompagnement — Univers Coaching</title>
 <link rel="stylesheet" href="./coach-vivant.css">
+<script src="./coach-questions.js" defer></script>
 <script src="./coach-vivant.js" defer></script>
 </head>
 <body>
@@ -36,6 +37,15 @@
 <button type="button" class="tab" data-tab="prefs">Profil</button>
 </nav>
 <section id="today" class="pane">
+<div class="card" id="guided-card" aria-labelledby="guided-heading">
+<div class="flex between"><h2 id="guided-heading">Apprendre à te connaître</h2><span class="eyebrow" id="guided-progress">Une question à la fois</span></div>
+<p class="muted" id="guided-reason">Le coach te pose uniquement la prochaine question utile. Tu peux répondre plus tard ou revoir tes réponses.</p>
+<h3 id="guided-question" style="margin:12px 0 6px">Chargement du parcours...</h3>
+<div id="guided-choices" class="choices" role="group" aria-labelledby="guided-question"></div>
+<div class="actions"><button type="button" class="secondary" id="guided-later">Plus tard</button><button type="button" class="secondary" id="guided-profile">Voir mes repères</button></div>
+<p class="muted" id="guided-feedback" role="status" aria-live="polite"></p>
+<p class="muted">Les choix sont interprétés par des règles locales, sans appel à une IA payante. L'agent personnel Telegram n'a accès à aucune donnée de ce compte.</p>
+</div>
 <div class="card" id="welcome-card">
 <div class="flex between"><h2 id="greeting">Ta prochaine étape</h2><span class="eyebrow" id="session-state">À préparer</span></div>
 <p class="muted" id="next-reason">Renseigne tes disponibilités pour commencer.</p>
