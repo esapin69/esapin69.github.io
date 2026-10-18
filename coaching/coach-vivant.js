@@ -56,7 +56,7 @@ async function refresh(){
  if(!session?.refresh_token)throw Error("Connexion expirée.");
  const result=await http("/auth/v1/token?grant_type=refresh_token","POST",{refresh_token:session.refresh_token});
  if(!result.access_token)throw Error("Session non renouvelable.");
- session={access_token:result.access_token,refresh_token:result.refresh_token||session.refresh_token};localStorage.setItem(AUTH,JSON.stringify(session));return session;
+ session={access_token:result.access_token,refresh_token:result.refresh_token||session.refresh_token};sessionStorage.setItem(AUTH,JSON.stringify(session));return session;
 }
 async function authed(path,method="GET",body){
  if(!session)throw Error("Connecte-toi d'abord.");
@@ -65,7 +65,7 @@ async function authed(path,method="GET",body){
 }
 function recordEvent(kind,payload){
  const event={id:uid(),kind,payload,at:timestamp()};state.pending.push(event);
- if(kind==="journal"||kind==="checkin")state.observations.push({id:event.id,at:event.at,signal:payload.signal||"none",text:payload.text||""});
+ if(kind==="journal")state.observations.push({id:event.id,at:event.at,signal:payload.signal||"none",text:payload.text||""});
  if(kind==="session")state.sessions.push({id:event.id,...payload,finished:event.at});
  if(kind==="measurement")state.weights.push({id:event.id,...payload});
  cache();if(identity)flushPending().catch(err=>authStatus("Synchronisation en attente : "+err.message));
@@ -136,15 +136,29 @@ async function setSession(value){
  if(!me?.id)throw Error("Utilisateur non identifié.");
  identity={id:me.id,email:me.email};
  // Never import another person's guest account automatically.
- const remote=await cloudRead();state=remote;
- localStorage.setItem(AUTH,JSON.stringify(session));
+ const remote=await cloudRead();
+ // Reconcile only events cached for this verified account, never another person's guest data.
+ const previous=loadLocal(STORE+"-"+identity.id),pending=Array.isArray(previous.pending)?previous.pending:[];
+ const remoteIDs=new Set([...remote.observations,...remote.sessions,...remote.weights].map(x=>x.id));
+ for(const evt of pending){
+  if(!evt||!evt.id||remoteIDs.has(evt.id))continue;
+  remote.pending.push(evt);
+  if(evt.kind==="journal")remote.observations.push({id:evt.id,at:evt.at,signal:evt.payload?.signal||"none",text:evt.payload?.text||""});
+  else if(evt.kind==="session")remote.sessions.push({id:evt.id,...evt.payload,finished:evt.at});
+  else if(evt.kind==="measurement")remote.weights.push({id:evt.id,...evt.payload});
+  else if(evt.kind==="schedule"&&evt.payload?.date)remote.scheduled=evt.payload.date;
+ }
+ state=remote;
+ sessionStorage.setItem(AUTH,JSON.stringify(session));
  if(!remote.current){ensure();await savePlan();}
- cache();authStatus("Compte vérifié, historique privé chargé.");render();
+ cache();
+ if(state.pending.length)try{await flushPending();}catch(err){authStatus("Événements conservés, mais non synchronisés : "+err.message);}
+ render();
  }catch(err){identity=previousIdentity;session=previousSession;state=previousState;throw err;}
 }
 async function restore(){
- try{const saved=JSON.parse(localStorage.getItem(AUTH)||"null");if(!saved?.access_token||!saved?.refresh_token)return;await setSession(saved);}
- catch(err){identity=null;session=null;localStorage.removeItem(AUTH);state=loadLocal(STORE+"-guest");authStatus("Reconnecte-toi pour accéder au suivi en ligne : "+err.message);render();}
+ try{const saved=JSON.parse(sessionStorage.getItem(AUTH)||"null");if(!saved?.access_token||!saved?.refresh_token)return;await setSession(saved);}
+ catch(err){identity=null;session=null;sessionStorage.removeItem(AUTH);state=loadLocal(STORE+"-guest");authStatus("Reconnecte-toi pour accéder au suivi en ligne : "+err.message);render();}
 }
 async function logout(){
  if(!identity)return;
@@ -152,7 +166,7 @@ async function logout(){
   if(state.pending.length){authStatus("Synchronisation toujours en cours : attends avant de quitter le compte.");return;}
  }
  const signedId=identity.id,token=session?.access_token;
- identity=null;session=null;localStorage.removeItem(AUTH);localStorage.removeItem(STORE+"-"+signedId);
+ identity=null;session=null;sessionStorage.removeItem(AUTH);localStorage.removeItem(STORE+"-"+signedId);
  state=loadLocal(STORE+"-guest");render();authStatus("Déconnecté. Les données du compte ne sont plus affichées.");
  try{if(token)await http("/auth/v1/logout","POST",{},token);}catch(_){}
 }
