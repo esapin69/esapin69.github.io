@@ -13,7 +13,22 @@
 <main class="wrap">
 <header class="top"><a href="./" class="brand"><span class="emblem">✦</span> Univers Coaching</a><span class="chip">Espace expérimental</span></header>
 <div class="hero"><span class="eyebrow">Mon accompagnement</span><h1>Un suivi qui évolue<br>avec ta vraie vie.</h1><p>Note librement ce qui change. Les séances réalisées, ton temps et tes retours influencent le prochain programme.</p></div>
-<div class="note caution" role="note"><strong>Version sans compte.</strong> Les informations restent dans ce navigateur et ne sont pas synchronisées. Ne saisis pas de données médicales sensibles. Exporte régulièrement une sauvegarde. Un véritable coach conversationnel et les comptes multi-appareils demandent un service sécurisé non encore activé.</div>
+<div class="note caution" role="note"><strong>Suivi en construction.</strong> Connecte-toi pour sauvegarder tes séances et observations sur ton compte Supabase. Sans connexion, les données restent uniquement dans ce navigateur. Ne saisis aucune donnée médicale sensible. Le moteur de dialogue IA, les notifications automatiques et la synchronisation bidirectionnelle du calendrier ne sont pas encore actifs.</div>
+<section class="card" id="account-card" aria-labelledby="account-title">
+<h2 id="account-title">Mon compte et mes sauvegardes</h2>
+<p class="muted" id="account-status">Connexion facultative. Sans compte : données sur cet appareil seulement.</p>
+<div id="auth-guest">
+<label for="auth-email">Adresse e-mail</label><input type="email" autocomplete="email" id="auth-email" class="field" placeholder="adresse@exemple.fr">
+<label for="auth-password">Mot de passe</label><input type="password" autocomplete="current-password" id="auth-password" class="field" minlength="12" placeholder="12 caractères minimum">
+<div class="actions"><button id="signin" class="primary" type="button">Me connecter</button><button id="signup" class="secondary" type="button">Créer mon compte</button></div>
+<p class="muted">Si la confirmation d'e-mail est activée, valide le lien reçu avant ta première connexion. Chaque personne possède un compte et ses propres données. Aucun e-mail n'est envoyé par ChatGPT.</p>
+</div>
+<div id="auth-user" class="hidden">
+<p class="muted" id="signed-email"></p>
+<div class="actions"><button id="sync" class="secondary" type="button">Synchroniser</button><button id="signout" class="secondary" type="button">Me déconnecter</button></div>
+<p class="muted">Les données saisies hors connexion ne sont jamais transférées vers un autre compte automatiquement.</p>
+</div><p id="sync-status" class="muted" aria-live="polite"></p>
+</section>
 <nav class="tabs" aria-label="Sections du coaching">
 <button type="button" class="tab active" data-tab="today" aria-current="page">Aujourd'hui</button>
 <button type="button" class="tab" data-tab="journal">Échanger</button>
