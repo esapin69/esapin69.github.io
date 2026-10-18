@@ -96,7 +96,8 @@ async function cloudRead(){
  while(true){
   const rows=await authed("/rest/v1/coach_events?select=id,kind,payload,occurred_at&user_id=eq."+encodeURIComponent(identity.id)+"&order=occurred_at.asc,id.asc&limit=500&offset="+offset);
   if(!Array.isArray(rows))throw Error("Historique illisible.");
-  for(const row of rows){if(row.kind==="schedule"&&row.payload&&typeof row.payload.date==="string")obj.scheduled=row.payload.date;
+  for(const row of rows){if(row.kind==="goal"&&row.payload?.goalTrack)obj.profile.goalTrack=row.payload.goalTrack;
+   if(row.kind==="schedule"&&row.payload&&typeof row.payload.date==="string")obj.scheduled=row.payload.date;
    if(row.kind==="checkin"&&row.payload&&row.payload.plan_id===obj.current?.id&&Array.isArray(row.payload.checks)){
      for(const entry of row.payload.checks){const ex=obj.current.exercises.find(e=>e.id===entry.id);if(ex&&Array.isArray(entry.checks)&&entry.checks.length===ex.sets)ex.checks=entry.checks.map(Boolean);}
    }
@@ -109,7 +110,7 @@ async function cloudRead(){
 async function saveProfile(){
  if(!identity){cache();return;}
  const p=state.profile;
- await authed("/rest/v1/coach_profiles?on_conflict=user_id","POST",{user_id:identity.id,display_name:p.name,objective:p.objective,constraints_text:p.constraints,preferences:{equipment:p.equipment,minutes:p.minutes,weekly:p.weekly,focus:p.focus,experience:p.experience||"",scheduleType:p.scheduleType||"",recovery:p.recovery||"",comfortNote:p.comfortNote||"",intake:p.intake||{}},updated_at:timestamp()});
+ await authed("/rest/v1/coach_profiles?on_conflict=user_id","POST",{user_id:identity.id,display_name:p.name,objective:p.objective,constraints_text:p.constraints,preferences:{equipment:p.equipment,minutes:p.minutes,weekly:p.weekly,focus:p.focus,experience:p.experience||"",scheduleType:p.scheduleType||"",recovery:p.recovery||"",comfortNote:p.comfortNote||"",intake:p.intake||{},goalTrack:p.goalTrack||null,brainState:p.brainState||{},measurementReminders:p.measurementReminders===true},updated_at:timestamp()});
  authStatus("Profil sauvegardé sur Supabase.");
 }
 async function savePlan(){
@@ -146,7 +147,8 @@ async function setSession(value){
   if(evt.kind==="journal")remote.observations.push({id:evt.id,at:evt.at,signal:evt.payload?.signal||"none",text:evt.payload?.text||""});
   else if(evt.kind==="session")remote.sessions.push({id:evt.id,...evt.payload,finished:evt.at});
   else if(evt.kind==="measurement")remote.weights.push({id:evt.id,...evt.payload});
-  else if(evt.kind==="schedule"&&evt.payload?.date)remote.scheduled=evt.payload.date;
+  else if(evt.kind==="schedule"&&typeof evt.payload?.date==="string")remote.scheduled=evt.payload.date;
+  else if(evt.kind==="goal"&&evt.payload?.goalTrack)remote.profile.goalTrack=evt.payload.goalTrack;
   else if(evt.kind==="checkin"&&evt.payload?.plan_id===remote.current?.id&&Array.isArray(evt.payload?.checks)){
    for(const item of evt.payload.checks){
     const movement=remote.current.exercises.find(e=>e.id===item.id);
@@ -263,6 +265,67 @@ async function postponeGuided(){
  render();toast("Question reportée, sans perdre tes informations.");
 }
 
+
+let currentBrain=null;
+function renderBrain(){
+ const model=window.CoachBrain;
+ if(!model){$("brain-title").textContent="Suivi local indisponible";$("brain-explanation").textContent="Le reste des séances reste disponible.";return;}
+ const nextQuestion=window.CoachQuestions?.nextQuestion(state);
+ const result=model.evaluate(state,{hasQuestion:!!nextQuestion});
+ const choice=result.primary;currentBrain=choice;
+ $("brain-title").textContent=choice.title;
+ $("brain-explanation").textContent=choice.detail;
+ $("brain-source").textContent="Pourquoi cette proposition ? "+choice.source;
+ $("brain-summary").textContent="Sur les 7 derniers jours : "+result.statistics.last7+" séance(s) réellement consignées."+(result.statistics.stage?" Étape "+result.statistics.stage.level+" : "+result.statistics.stage.completed+"/"+result.statistics.stage.target+" séance(s).":"");
+ $("brain-act").textContent=choice.label;
+ $("brain-later").disabled=!!choice.safety;
+ $("brain-followup").classList.add("hidden");$("brain-followup").replaceChildren();
+}
+async function rememberCoachProfile(){
+ cache();if(identity)try{await saveProfile();}catch(error){authStatus("Préférence sauvegardée localement, pas encore dans Supabase : "+error.message);}
+}
+function chooseBrainAction(){
+ if(!currentBrain)return;
+ const decision=currentBrain,action=decision.action,container=$("brain-followup");
+ container.replaceChildren();container.classList.add("hidden");
+ if(action==="journal"){view("journal");$("journal-text").focus();return;}
+ if(action==="question"){document.getElementById("guided-card").scrollIntoView({behavior:"smooth",block:"start"});return;}
+ if(action==="schedule"){view("today");$("start-date").focus();return;}
+ if(action==="measurement"){view("evolution");$("weight").focus();return;}
+ if(action==="session"){document.getElementById("exercises").scrollIntoView({behavior:"smooth",block:"start"});return;}
+ if(action==="confirmSchedule"){
+  container.classList.remove("hidden");
+  container.append(el("p","muted","Confirme ce qui s'est réellement passé :"));
+  const done=el("button","secondary","J'ai effectué la séance");
+  const missed=el("button","secondary","Je ne l'ai pas faite");
+  done.type=missed.type="button";
+  done.addEventListener("click",()=>{container.classList.add("hidden");document.getElementById("exercises").scrollIntoView({behavior:"smooth",block:"start"});toast("Coche les séries réellement faites puis enregistre ton bilan.");});
+  missed.addEventListener("click",()=>{const previous=state.scheduled;state.scheduled="";recordEvent("journal",{signal:"missed",text:"Séance initialement prévue le "+previous+" déclarée non réalisée. Un report est possible sans rattrapage punitif."});recordEvent("schedule",{date:""});render();toast("Séance non réalisée enregistrée. Un report est possible.");});
+  container.append(done,missed);return;
+ }
+ if(action==="goalStart"||action==="goalReview"){
+  const stats=window.CoachBrain.progress(state).stage,proposed=action==="goalStart"?Math.max(1,Math.min(4,Number(state.profile.weekly)||2)):stats.completed>=stats.target?Math.min(4,stats.target+1):stats.completed===0?Math.max(1,stats.target-1):stats.target;
+  container.classList.remove("hidden");
+  container.append(el("p","muted","Proposition : "+proposed+" séance(s) réaliste(s) sur les sept prochains jours. À ajuster ensemble, sans obligation ni pénalité."));
+  const yes=el("button","primary","Accepter cette étape"),no=el("button","secondary","Pas maintenant");
+  yes.type=no.type="button";
+  yes.addEventListener("click",async()=>{
+   try{
+    state.profile=window.CoachBrain.milestone(state,action==="goalStart"?"start":"review");
+    cache();recordEvent("goal",{goalTrack:state.profile.goalTrack,reason:"Étape acceptée par la personne"});
+    await rememberCoachProfile();render();toast("Étape mémorisée. Elle sera réévaluée à partir des séances réellement consignées.");
+   }catch(err){toast("Étape non modifiée : "+err.message);}
+  });
+  no.addEventListener("click",()=>{container.replaceChildren();container.classList.add("hidden");});
+  container.append(yes,no);return;
+ }
+}
+async function postponeBrainAction(){
+ if(!currentBrain||currentBrain.safety){toast("Le message de prudence reste disponible.");return;}
+ try{state.profile=window.CoachBrain.snooze(state,currentBrain.id);await rememberCoachProfile();render();toast("Rappel dans le site reporté de 24 h.");}
+ catch(err){toast("Impossible de reporter : "+err.message);}
+}
+
 function render(){
  feedbackOpen=false;document.querySelectorAll(".feedback").forEach(n=>n.remove());
  ensure();const p=state.profile;
@@ -270,11 +333,11 @@ function render(){
  $("session-state").textContent=state.current.needsSafetyReview?"Gêne signalée":state.scheduled?"Planifiée":"À programmer";
  $("next-reason").textContent=state.current.needsSafetyReview?"En cas de douleur, interromps le mouvement concerné.":state.scheduled?"Prochaine séance : "+new Date(state.scheduled).toLocaleString("fr-FR"):"Séance indicative de "+state.current.minutes+" minutes.";
  $("start-date").value=state.scheduled||"";
- $("who").value=p.name;$("why").value=p.objective;$("constraints").value=p.constraints;$("equipment").value=p.equipment;$("minutes").value=String(p.minutes);$("weekly").value=String(p.weekly);$("focus").value=p.focus;
+ $("who").value=p.name;$("why").value=p.objective;$("constraints").value=p.constraints;$("equipment").value=p.equipment;$("minutes").value=String(p.minutes);$("weekly").value=String(p.weekly);$("focus").value=p.focus;$("measurement-reminders").checked=p.measurementReminders===true;
  if(!$("weigh-date").value)$("weigh-date").value=new Date().toLocaleDateString("en-CA");
  document.querySelectorAll(".tab").forEach(b=>{const active=b.dataset.tab===section;b.classList.toggle("active",active);if(active)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");});
  document.querySelectorAll(".pane").forEach(pane=>pane.classList.toggle("hidden",pane.id!==section));
- signalSuggestion();exercisesUI();lists();authStatus();renderGuided();
+ signalSuggestion();exercisesUI();lists();authStatus();renderGuided();renderBrain();
 }
 function view(name){section=name;render();window.scrollTo({top:0,behavior:"instant"});}
 function hasChecked(){return state.current?.exercises.some(ex=>ex.checks.some(Boolean));}
@@ -320,6 +383,8 @@ async function importData(file){
  }catch(e){toast("Import impossible : "+e.message);}
 }
 async function init(){
+ $("brain-act").addEventListener("click",chooseBrainAction);
+ $("brain-later").addEventListener("click",postponeBrainAction);
  $("guided-later").addEventListener("click", postponeGuided);
  $("guided-profile").addEventListener("click",()=>view("prefs"));
  document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>view(b.dataset.tab)));
@@ -338,7 +403,7 @@ async function init(){
  });
  $("sync").addEventListener("click",async()=>{try{if(busy){toast("La synchronisation est déjà en cours.");return;}await flushPending();if(state.pending.length){toast("Des événements sont encore en attente.");return;}const remote=await cloudRead();state=remote;cache();render();toast("Données rechargées.");}catch(e){authStatus("Synchronisation impossible : "+e.message);}});
  $("add-note").addEventListener("click",()=>{const text=$("journal-text").value.trim();if(!text){toast("Écris ton observation.");return;}const signal=document.querySelector("input[name=signal]:checked")?.value||"none";recordEvent("journal",{text,signal});$("journal-text").value="";render();toast("Observation enregistrée.");});
- $("save-prefs").addEventListener("click",async()=>{const before=JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});state.profile={...state.profile,name:$("who").value.trim().slice(0,60),objective:$("why").value.trim().slice(0,3000),constraints:$("constraints").value.trim().slice(0,5000),equipment:$("equipment").value,minutes:Number($("minutes").value),weekly:Number($("weekly").value),focus:$("focus").value};cache();try{await saveProfile();}catch(e){authStatus("Profil local conservé ; cloud non synchronisé : "+e.message);}const changed=before!==JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});if(changed&&!hasChecked())await newPlan();else{toast(changed?"Repères sauvegardés. Une séance est en cours : tes séries sont conservées.":"Repères sauvegardés sans effacer ton histoire.");render();}});
+ $("save-prefs").addEventListener("click",async()=>{const before=JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});state.profile={...state.profile,name:$("who").value.trim().slice(0,60),objective:$("why").value.trim().slice(0,3000),constraints:$("constraints").value.trim().slice(0,5000),equipment:$("equipment").value,minutes:Number($("minutes").value),weekly:Number($("weekly").value),focus:$("focus").value,measurementReminders:$("measurement-reminders").checked===true};cache();try{await saveProfile();}catch(e){authStatus("Profil local conservé ; cloud non synchronisé : "+e.message);}const changed=before!==JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});if(changed&&!hasChecked())await newPlan();else{toast(changed?"Repères sauvegardés. Une séance est en cours : tes séries sont conservées.":"Repères sauvegardés sans effacer ton histoire.");render();}});
  $("add-weight").addEventListener("click",()=>{const n=Number($("weight").value),date=$("weigh-date").value;if(!(n>=1&&n<=500)||!/^\d{4}-\d{2}-\d{2}$/.test(date)){toast("Saisis une date et une mesure cohérente.");return;}recordEvent("measurement",{date,value:n});$("weight").value="";render();toast("Mesure enregistrée sans jugement.");});
  $("save-schedule").addEventListener("click",()=>{const value=$("start-date").value;if(!value||Number.isNaN(new Date(value).getTime())){toast("Choisis un créneau valable.");return;}state.scheduled=value;cache();if(identity)recordEvent("schedule",{date:value});render();toast("Créneau conservé.");});
  $("ics").addEventListener("click",calendar);

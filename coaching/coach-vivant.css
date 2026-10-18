@@ -11,3 +11,16 @@
 #guided-card .actions{margin-top:9px}
 @media(max-width:380px){#guided-card .choices{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.guided-option{transition:none}}
+
+
+/* Centre de décision Coaching — autonome à l'ouverture, sans requête extérieure. */
+#brain-card{background:linear-gradient(143deg,#f0f8f5,#fff 77%);border-color:#c8e3d9}
+#brain-card #brain-decision{background:#f1f9f6;border-color:#c8e7d9;margin-top:13px}
+#brain-card #brain-title{font-size:18px;line-height:1.35;margin:0 0 8px}
+#brain-card #brain-explanation{color:#285a43;font-size:13px;line-height:1.6;margin:0 0 6px}
+#brain-card #brain-source{margin:0;font-size:11px;color:#49705e}
+#brain-card #brain-followup{background:#f6faf8;border:1px solid #d7e9de;border-radius:12px;padding:12px;margin-top:12px}
+#brain-card #brain-followup button{min-height:42px;margin:4px 5px 4px 0}
+#brain-card .actions{margin-top:11px}
+.opt-in{display:flex;align-items:flex-start;gap:11px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#f8fbfd}
+.opt-in input{width:18px;height:18px;flex:none;accent-color:var(--green);margin-top:2px}
