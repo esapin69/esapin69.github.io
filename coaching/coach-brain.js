@@ -13,7 +13,7 @@ function progress(s,now=Date.now()){
  let stage=null;
  if(track&&Number.isFinite(ts(track.startedAt))){
   const started=ts(track.startedAt),target=clamp(track.targetSessions,1,4);
-  const done=rows(s,"sessions").filter(x=>Number(x.done)>0&&ts(x.finished)>=started&&ts(x.finished)<=now).length;
+  const done=rows(s,"sessions").filter(x=>Number(x.done)>0&&ts(x.finished)>=started&&ts(x.finished)<started+7*DAY&&ts(x.finished)<=now).length;
   stage={level:clamp(track.level,1,999),target,completed:done,startedAt:track.startedAt,endsAt:iso(started+7*DAY),due:now-started>=7*DAY};
  }
  return {last28:completed.length,last7:completed.filter(x=>now-ts(x.finished)<=7*DAY).length,lastFinished:last,stage};
