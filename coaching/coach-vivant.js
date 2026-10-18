@@ -101,7 +101,7 @@ async function cloudRead(){
    }
    const evt=eventFromCloud(row);if(!evt)continue;if(evt.type==="observation")obj.observations.push(evt.value);if(evt.type==="session")obj.sessions.push(evt.value);if(evt.type==="weight")obj.weights.push(evt.value);
   }
-  offset+=rows.length;if(rows.length<500)break;if(offset>=10000)throw Error("Historique très long : pagination complémentaire requise.");
+  offset+=rows.length;if(rows.length<500)break;
  }
  return obj;
 }
@@ -268,7 +268,7 @@ async function init(){
  $("signout").addEventListener("click",logout);
  $("sync").addEventListener("click",async()=>{try{if(busy){toast("La synchronisation est déjà en cours.");return;}await flushPending();if(state.pending.length){toast("Des événements sont encore en attente.");return;}const remote=await cloudRead();state=remote;cache();render();toast("Données rechargées.");}catch(e){authStatus("Synchronisation impossible : "+e.message);}});
  $("add-note").addEventListener("click",()=>{const text=$("journal-text").value.trim();if(!text){toast("Écris ton observation.");return;}const signal=document.querySelector("input[name=signal]:checked")?.value||"none";recordEvent("journal",{text,signal});$("journal-text").value="";render();toast("Observation enregistrée.");});
- $("save-prefs").addEventListener("click",async()=>{state.profile={name:$("who").value.trim().slice(0,60),objective:$("why").value.trim().slice(0,3000),constraints:$("constraints").value.trim().slice(0,5000),equipment:$("equipment").value,minutes:Number($("minutes").value),weekly:Number($("weekly").value),focus:$("focus").value};cache();try{await saveProfile();}catch(e){authStatus("Profil local conservé ; cloud non synchronisé : "+e.message);}toast("Repères enregistrés. Ton historique reste inchangé.");render();});
+ $("save-prefs").addEventListener("click",async()=>{const before=JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});state.profile={name:$("who").value.trim().slice(0,60),objective:$("why").value.trim().slice(0,3000),constraints:$("constraints").value.trim().slice(0,5000),equipment:$("equipment").value,minutes:Number($("minutes").value),weekly:Number($("weekly").value),focus:$("focus").value};cache();try{await saveProfile();}catch(e){authStatus("Profil local conservé ; cloud non synchronisé : "+e.message);}const changed=before!==JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});if(changed&&!hasChecked())await newPlan();else{toast(changed?"Repères sauvegardés. Une séance est en cours : tes séries sont conservées.":"Repères sauvegardés sans effacer ton histoire.");render();}});
  $("add-weight").addEventListener("click",()=>{const n=Number($("weight").value),date=$("weigh-date").value;if(!(n>=1&&n<=500)||!/^\d{4}-\d{2}-\d{2}$/.test(date)){toast("Saisis une date et une mesure cohérente.");return;}recordEvent("measurement",{date,value:n});$("weight").value="";render();toast("Mesure enregistrée sans jugement.");});
  $("save-schedule").addEventListener("click",()=>{const value=$("start-date").value;if(!value||Number.isNaN(new Date(value).getTime())){toast("Choisis un créneau valable.");return;}state.scheduled=value;cache();if(identity)recordEvent("schedule",{date:value});render();toast("Créneau conservé.");});
  $("ics").addEventListener("click",calendar);
