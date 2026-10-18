@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f9fc">
+<meta name="description" content="Carnet de coaching évolutif : séances, contraintes, ressenti, calendrier et progression.">
+<title>Mon accompagnement — Univers Coaching</title>
+<link rel="stylesheet" href="./coach-vivant.css">
+<script src="./coach-vivant.js" defer></script>
+</head>
+<body>
+<main class="wrap">
+<header class="top"><a href="./" class="brand"><span class="emblem">✦</span> Univers Coaching</a><span class="chip">Espace expérimental</span></header>
+<div class="hero"><span class="eyebrow">Mon accompagnement</span><h1>Un suivi qui évolue<br>avec ta vraie vie.</h1><p>Note librement ce qui change. Les séances réalisées, ton temps et tes retours influencent le prochain programme.</p></div>
+<div class="note caution" role="note"><strong>Version sans compte.</strong> Les informations restent dans ce navigateur et ne sont pas synchronisées. Ne saisis pas de données médicales sensibles. Exporte régulièrement une sauvegarde. Un véritable coach conversationnel et les comptes multi-appareils demandent un service sécurisé non encore activé.</div>
+<nav class="tabs" aria-label="Sections du coaching">
+<button type="button" class="tab active" data-tab="today" aria-current="page">Aujourd'hui</button>
+<button type="button" class="tab" data-tab="journal">Échanger</button>
+<button type="button" class="tab" data-tab="evolution">Évolution</button>
+<button type="button" class="tab" data-tab="prefs">Profil</button>
+</nav>
+<section id="today" class="pane">
+<div class="card" id="welcome-card">
+<div class="flex between"><h2 id="greeting">Ta prochaine étape</h2><span class="eyebrow" id="session-state">À préparer</span></div>
+<p class="muted" id="next-reason">Renseigne tes disponibilités pour commencer.</p>
+<div id="recommendation" class="suggestion" aria-live="polite"></div>
+<div class="actions"><button id="accept-suggestion" type="button" class="primary">Appliquer cette proposition</button><button id="skip-suggestion" type="button" class="secondary">Garder mon rythme</button></div>
+</div>
+<div class="card">
+<div class="flex between"><h2>Ma séance</h2><span class="eyebrow" id="training-meta">Progression</span></div>
+<div class="progress"><div id="training-bar"></div></div>
+<div class="grid" id="exercises"></div>
+<div class="actions"><button id="complete" class="primary" type="button">Enregistrer mon retour</button><button id="reset-sets" class="secondary" type="button">Recommencer les coches</button></div>
+</div>
+<div class="card">
+<div class="flex between"><h2>Planifier</h2><span class="muted">Calendrier du téléphone</span></div>
+<label for="start-date">Date et heure de la prochaine séance</label>
+<input type="datetime-local" id="start-date" class="field">
+<p class="muted">Le fichier calendrier inclut échauffement, liste des exercices, séries, répétitions, récupérations et lien vers la séance.</p>
+<div class="actions"><button type="button" id="save-schedule" class="secondary">Enregistrer le créneau</button><button type="button" id="ics" class="primary">Ajouter au calendrier (.ics)</button></div>
+<p class="muted">L'import .ics ne met pas automatiquement à jour les événements déjà importés si tu déplaces la séance.</p>
+</div>
+</section>
+<section id="journal" class="pane hidden">
+<div class="card">
+<h2>Parle au carnet de coaching</h2>
+<p class="muted">Décris librement tes contraintes, ton ressenti, tes disponibilités et tes résultats. Le texte est conservé intégralement. Les adaptations automatiques utilisent seulement les indicateurs explicites et contrôlés ci-dessous : le carnet ne prétend pas comprendre toutes les nuances du langage.</p>
+<label for="journal-text">Qu'est-ce qui a changé ou qu'aimerais-tu ajouter ?</label>
+<textarea id="journal-text" class="field" rows="4" maxlength="5000" placeholder="Ex. Ma semaine de travail vient de changer. Je peux faire deux séances courtes ; le dernier tirage était assez facile."></textarea>
+<div class="flex between"><span class="eyebrow">Repère pour adapter la suite</span><span class="muted">Facultatif</span></div>
+<div class="choices" id="signal-choice">
+<label><input type="radio" name="signal" value="none" checked>Simple note</label>
+<label><input type="radio" name="signal" value="time">Temps limité</label>
+<label><input type="radio" name="signal" value="easy">Trop facile</label>
+<label><input type="radio" name="signal" value="hard">Trop difficile</label>
+<label><input type="radio" name="signal" value="pain">Douleur ou gêne</label>
+<label><input type="radio" name="signal" value="missed">Séance manquée</label>
+<label><input type="radio" name="signal" value="schedule">Changement de planning</label>
+</div>
+<button type="button" id="add-note" class="primary wide">Enregistrer dans mon histoire</button>
+</div>
+<div class="card"><h2>Mon histoire</h2><div id="notes" class="entries"><p class="muted">Aucune observation pour l'instant.</p></div></div>
+</section>
+<section id="evolution" class="pane hidden">
+<div class="card"><h2>Mes séances réellement faites</h2><p class="muted">On distingue le programme proposé de ce qui a été réellement effectué.</p><div id="history" class="entries"></div></div>
+<div class="card">
+<h2>Suivi physique facultatif</h2><p class="muted">La pesée est un indicateur parmi d'autres. Une mesure isolée ne change pas ton programme et aucune valeur n'est jugée.</p>
+<div class="flex"><div class="grow"><label for="weigh-date">Date</label><input class="field" type="date" id="weigh-date"></div><div class="grow"><label for="weight">Poids (kg)</label><input class="field" type="number" id="weight" min="1" max="500" step="0.1" inputmode="decimal" placeholder="Facultatif"></div></div>
+<button type="button" id="add-weight" class="secondary wide">Enregistrer la mesure</button>
+<div id="weight-history" class="entries"></div>
+</div>
+</section>
+<section id="prefs" class="pane hidden">
+<div class="card">
+<h2>Mes repères, sans questionnaire figé</h2><p class="muted">Tu peux tout changer au fil du temps, sans recommencer à zéro. Les contraintes libres restent visibles.</p>
+<label for="who">Comment t'appeler ?</label><input id="who" class="field" type="text" maxlength="60" placeholder="Prénom facultatif">
+<label for="why">Ton objectif, avec tes mots</label><textarea id="why" class="field" rows="3" maxlength="3000" placeholder="Ex. retrouver de l'énergie, progresser sans dépasser mon temps disponible..."></textarea>
+<label for="constraints">Contraintes et préférences à conserver telles quelles</label><textarea id="constraints" class="field" rows="4" maxlength="5000" placeholder="Horaires, matériel, récupération, exercices refusés, envies..."></textarea>
+<div class="flex"><div class="grow"><label for="equipment">Environnement</label><select id="equipment" class="field"><option value="maison">Maison</option><option value="salle">Salle</option></select></div><div class="grow"><label for="minutes">Durée disponible</label><select id="minutes" class="field"><option value="20">20 min</option><option value="35">35 min</option><option value="50">50 min</option></select></div></div>
+<div class="flex"><div class="grow"><label for="weekly">Séances souhaitées / semaine</label><select id="weekly" class="field"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div><div class="grow"><label for="focus">Priorité actuelle</label><select id="focus" class="field"><option value="equilibre">Équilibre</option><option value="haut">Haut du corps</option><option value="bas">Bas du corps</option></select></div></div>
+<button type="button" id="save-prefs" class="primary wide">Mettre à jour mes repères</button>
+</div>
+<div class="card"><h2>Garder mon historique</h2><p class="muted">Export complet téléchargeable et import de sauvegarde. Attention : ce n'est pas une synchronisation sécurisée entre comptes.</p><div class="actions"><button type="button" id="backup" class="primary">Exporter ma sauvegarde</button><button type="button" id="import-trigger" class="secondary">Importer une sauvegarde</button></div><input id="import-file" type="file" accept=".json,application/json" class="hidden"><p id="backup-status" class="muted" aria-live="polite"></p></div>
+<div class="card"><h2>Confidentialité</h2><p class="muted">Aucun envoi de données ou notification automatique depuis cette page. Le suivi reste local ; les comptes et les rappels proactifs viendront seulement après connexion à un service sécurisé.</p><button type="button" id="erase" class="danger">Effacer les données locales</button></div>
+</section>
+<footer>Prototype local évolutif · <a href="./programme-personnalise.html">Programme guidé</a> · <a href="./seance-musculation.html">Full Body d'origine</a></footer>
+<div id="toast" class="toast hidden" aria-live="polite"></div>
+</main>
+</body></html>
