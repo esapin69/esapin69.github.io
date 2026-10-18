@@ -147,7 +147,8 @@ async function setSession(value){
   if(evt.kind==="journal")remote.observations.push({id:evt.id,at:evt.at,signal:evt.payload?.signal||"none",text:evt.payload?.text||""});
   else if(evt.kind==="session")remote.sessions.push({id:evt.id,...evt.payload,finished:evt.at});
   else if(evt.kind==="measurement")remote.weights.push({id:evt.id,...evt.payload});
-  else if(evt.kind==="schedule"&&evt.payload?.date)remote.scheduled=evt.payload.date;
+  else if(evt.kind==="schedule"&&typeof evt.payload?.date==="string")remote.scheduled=evt.payload.date;
+  else if(evt.kind==="goal"&&evt.payload?.goalTrack)remote.profile.goalTrack=evt.payload.goalTrack;
   else if(evt.kind==="checkin"&&evt.payload?.plan_id===remote.current?.id&&Array.isArray(evt.payload?.checks)){
    for(const item of evt.payload.checks){
     const movement=remote.current.exercises.find(e=>e.id===item.id);
