@@ -36,7 +36,9 @@ const library={
 async function http(path,method,body,token){
  const headers={apikey:KEY,"Content-Type":"application/json"};
  if(token)headers.Authorization="Bearer "+token;
- if(method==="POST"&&path.startsWith("/rest/"))headers.Prefer="resolution=merge-duplicates,return=representation";
+ if(method==="POST"&&path.includes("coach_profiles"))headers.Prefer="resolution=merge-duplicates,return=representation";
+ else if(method==="POST"&&path.includes("coach_events"))headers.Prefer="resolution=ignore-duplicates,return=minimal";
+ else if(method==="POST"&&path.startsWith("/rest/"))headers.Prefer="return=representation";
  const res=await fetch(PROJECT+path,{method,headers,body:body===undefined?undefined:JSON.stringify(body),cache:"no-store"});
  let data=null;try{data=await res.json();}catch(_){}
  if(!res.ok){const error=new Error((data&&((data.msg||data.error_description||data.message||data.error)))||("Erreur serveur "+res.status));error.code=res.status;throw error;}
@@ -76,7 +78,7 @@ async function flushPending(){
 }
 function eventFromCloud(row){
  const p=row.payload||{},v={id:row.id,at:row.occurred_at,signal:p.signal||"none",text:p.text||""};
- if(row.kind==="journal"||row.kind==="checkin")return {type:"observation",value:v};
+ if(row.kind==="journal")return {type:"observation",value:v};
  if(row.kind==="session")return {type:"session",value:{id:row.id,...p,finished:row.occurred_at}};
  if(row.kind==="measurement")return {type:"weight",value:{id:row.id,...p}};
  return null;
@@ -93,7 +95,12 @@ async function cloudRead(){
  while(true){
   const rows=await authed("/rest/v1/coach_events?select=id,kind,payload,occurred_at&user_id=eq."+encodeURIComponent(identity.id)+"&order=occurred_at.asc,id.asc&limit=500&offset="+offset);
   if(!Array.isArray(rows))throw Error("Historique illisible.");
-  for(const row of rows){const evt=eventFromCloud(row);if(!evt)continue;if(evt.type==="observation")obj.observations.push(evt.value);if(evt.type==="session")obj.sessions.push(evt.value);if(evt.type==="weight")obj.weights.push(evt.value);if(row.kind==="schedule"&&row.payload&&typeof row.payload.date==="string")obj.scheduled=row.payload.date;}
+  for(const row of rows){if(row.kind==="schedule"&&row.payload&&typeof row.payload.date==="string")obj.scheduled=row.payload.date;
+   if(row.kind==="checkin"&&row.payload&&row.payload.plan_id===obj.current?.id&&Array.isArray(row.payload.checks)){
+     for(const entry of row.payload.checks){const ex=obj.current.exercises.find(e=>e.id===entry.id);if(ex&&Array.isArray(entry.checks)&&entry.checks.length===ex.sets)ex.checks=entry.checks.map(Boolean);}
+   }
+   const evt=eventFromCloud(row);if(!evt)continue;if(evt.type==="observation")obj.observations.push(evt.value);if(evt.type==="session")obj.sessions.push(evt.value);if(evt.type==="weight")obj.weights.push(evt.value);
+  }
   offset+=rows.length;if(rows.length<500)break;if(offset>=10000)throw Error("Historique très long : pagination complémentaire requise.");
  }
  return obj;
@@ -121,19 +128,29 @@ async function authenticate(mode){
  finally{$("signin").disabled=$("signup").disabled=false;$("auth-password").value="";}
 }
 async function setSession(value){
+ const previousSession=session,previousIdentity=identity,previousState=state;
+ try{
  session={access_token:value.access_token,refresh_token:value.refresh_token};
  const me=await authed("/auth/v1/user");
- if(!me?.id){session=null;throw Error("Utilisateur non identifié.");}
- identity={id:me.id,email:me.email};localStorage.setItem(AUTH,JSON.stringify(session));
+ if(!me?.id)throw Error("Utilisateur non identifié.");
+ identity={id:me.id,email:me.email};
  // Never import another person's guest account automatically.
- state=await cloudRead();state.pending=[];cache();authStatus("Compte vérifié, historique privé chargé.");render();
+ const remote=await cloudRead();state=remote;
+ localStorage.setItem(AUTH,JSON.stringify(session));
+ if(!remote.current){ensure();await savePlan();}
+ cache();authStatus("Compte vérifié, historique privé chargé.");render();
+ }catch(err){identity=previousIdentity;session=previousSession;state=previousState;throw err;}
 }
 async function restore(){
  try{const saved=JSON.parse(localStorage.getItem(AUTH)||"null");if(!saved?.access_token||!saved?.refresh_token)return;await setSession(saved);}
  catch(err){identity=null;session=null;localStorage.removeItem(AUTH);state=loadLocal(STORE+"-guest");authStatus("Reconnecte-toi pour accéder au suivi en ligne : "+err.message);render();}
 }
 async function logout(){
- if(!identity)return;const signedId=identity.id,token=session?.access_token;
+ if(!identity)return;
+ if(state.pending.length){try{await flushPending();}catch(err){authStatus("Déconnexion interrompue, données encore non synchronisées : "+err.message);return;}
+  if(state.pending.length){authStatus("Synchronisation toujours en cours : attends avant de quitter le compte.");return;}
+ }
+ const signedId=identity.id,token=session?.access_token;
  identity=null;session=null;localStorage.removeItem(AUTH);localStorage.removeItem(STORE+"-"+signedId);
  state=loadLocal(STORE+"-guest");render();authStatus("Déconnecté. Les données du compte ne sont plus affichées.");
  try{if(token)await http("/auth/v1/logout","POST",{},token);}catch(_){}
@@ -174,7 +191,7 @@ function exercisesUI(){
   const box=el("article","exercise"),head=el("div","exercise-head"),mark=el("span","symbol",ex.symbol),info=el("div","name");
   info.append(el("h3","",ex.title),el("small","",labels[ex.category]||ex.category));head.append(mark,info);
   const reps=el("p","meta",ex.sets+" séries × "+ex.reps+" · récupération "+ex.rest+" sec"),series=el("div","series");
-  ex.checks.forEach((done,i)=>{const label=el("label"),input=el("input");input.type="checkbox";input.checked=done;input.setAttribute("aria-label",ex.title+", série "+(i+1));input.addEventListener("change",()=>{ex.checks[i]=input.checked;cache();percent();});label.append(input,el("span","","Série "+(i+1)));series.append(label);});
+  ex.checks.forEach((done,i)=>{const label=el("label"),input=el("input");input.type="checkbox";input.checked=done;input.setAttribute("aria-label",ex.title+", série "+(i+1));input.addEventListener("change",()=>{ex.checks[i]=input.checked;cache();percent();if(identity){recordEvent("checkin",{plan_id:state.current.id,checks:state.current.exercises.map(e=>({id:e.id,checks:[...e.checks]}))});}});label.append(input,el("span","","Série "+(i+1)));series.append(label);});
   const detail=el("details"),summary=el("summary","mini","Conseils techniques"),text=el("p","instruction",ex.instruction);detail.append(summary,text);box.append(head,reps,series,detail);root.append(box);
  }
  percent();
@@ -189,6 +206,7 @@ function lists(){
  else for(const w of [...state.weights].reverse().slice(0,40))$("weight-history").append(eventBox(w.date,w.value.toFixed(1)+" kg"));
 }
 function render(){
+ feedbackOpen=false;document.querySelectorAll(".feedback").forEach(n=>n.remove());
  ensure();const p=state.profile;
  $("greeting").textContent=p.name?"Ta prochaine étape, "+p.name:"Ta prochaine étape";
  $("session-state").textContent=state.current.needsSafetyReview?"Gêne signalée":state.scheduled?"Planifiée":"À programmer";
@@ -248,7 +266,7 @@ async function init(){
  $("signin").addEventListener("click",()=>authenticate("signin"));
  $("signup").addEventListener("click",()=>authenticate("signup"));
  $("signout").addEventListener("click",logout);
- $("sync").addEventListener("click",async()=>{try{await flushPending();const remote=await cloudRead();state={...remote,pending:state.pending};cache();render();toast("Données rechargées.");}catch(e){authStatus("Synchronisation impossible : "+e.message);}});
+ $("sync").addEventListener("click",async()=>{try{if(busy){toast("La synchronisation est déjà en cours.");return;}await flushPending();if(state.pending.length){toast("Des événements sont encore en attente.");return;}const remote=await cloudRead();state=remote;cache();render();toast("Données rechargées.");}catch(e){authStatus("Synchronisation impossible : "+e.message);}});
  $("add-note").addEventListener("click",()=>{const text=$("journal-text").value.trim();if(!text){toast("Écris ton observation.");return;}const signal=document.querySelector("input[name=signal]:checked")?.value||"none";recordEvent("journal",{text,signal});$("journal-text").value="";render();toast("Observation enregistrée.");});
  $("save-prefs").addEventListener("click",async()=>{state.profile={name:$("who").value.trim().slice(0,60),objective:$("why").value.trim().slice(0,3000),constraints:$("constraints").value.trim().slice(0,5000),equipment:$("equipment").value,minutes:Number($("minutes").value),weekly:Number($("weekly").value),focus:$("focus").value};cache();try{await saveProfile();}catch(e){authStatus("Profil local conservé ; cloud non synchronisé : "+e.message);}toast("Repères enregistrés. Ton historique reste inchangé.");render();});
  $("add-weight").addEventListener("click",()=>{const n=Number($("weight").value),date=$("weigh-date").value;if(!(n>=1&&n<=500)||!/^\d{4}-\d{2}-\d{2}$/.test(date)){toast("Saisis une date et une mesure cohérente.");return;}recordEvent("measurement",{date,value:n});$("weight").value="";render();toast("Mesure enregistrée sans jugement.");});
