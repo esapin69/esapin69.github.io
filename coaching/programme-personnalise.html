@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f8f9fb">
+<meta name="description" content="Coaching sportif interactif : créer son programme selon son objectif, son rythme et son matériel.">
+<title>Mon programme — Univers Coaching</title>
+<style>
+:root{color-scheme:light;--bg:#f8f9fb;--card:#fff;--ink:#1c2330;--mute:#677181;--line:#e5e9ef;--soft:#f1f4f8;--blue:#2473c2;--green:#238157;--mint:#e5f5ec;--focus:#83baf0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.48 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--ink)}button,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+a{color:inherit;text-decoration:none}main{max-width:720px;margin:auto;padding:18px 15px 80px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.brand{display:flex;gap:12px;align-items:center;font-weight:800;font-size:15px}.brand .emblem{background:#e7f1ff;color:var(--blue);width:43px;height:43px;display:grid;place-items:center;border-radius:13px;font-size:24px}.back{font-size:12px;color:var(--mute);padding:9px;border-radius:9px;border:1px solid var(--line);background:white}
+.card{background:var(--card);border:1px solid var(--line);border-radius:19px;padding:19px;margin-top:13px;box-shadow:0 4px 24px #1c283c05}.hero{padding:22px;background:linear-gradient(130deg,#eaf2ff,#f8fafc 76%);border:0;border-radius:21px}.eyebrow{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--mute)}h1,h2,h3,p{margin:0}h1{font-size:28px;line-height:1.15;letter-spacing:-.035em;margin:9px 0}h2{font-size:20px;letter-spacing:-.02em}h3{font-size:16px}.muted{color:var(--mute);font-size:13px}.hero p{max-width:47ch}.line{display:flex;align-items:center;justify-content:space-between;gap:12px}.gap{display:grid;gap:12px}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}.chip{font-size:12px;padding:8px 10px;background:#f1f4f7;border-radius:9px;font-weight:700}
+.progress{height:8px;border-radius:99px;background:#e5e9ef;overflow:hidden;margin:14px 0 20px}.progress>div{height:100%;background:var(--green);border-radius:99px;transition:width .2s}.questions{display:grid;gap:10px;margin-top:18px}.choice{display:block;width:100%;text-align:left;border:1px solid var(--line);background:white;border-radius:14px;padding:15px 16px;color:var(--ink)}.choice strong{display:block;font-size:15px}.choice small{display:block;font-size:12px;margin-top:3px;color:var(--mute)}.choice[aria-pressed="true"]{border-color:#91bfe9;box-shadow:0 0 0 2px #e5f2ff;background:#f6faff}.choice:hover{border-color:#abcce9}.input-name{border-radius:13px;border:1px solid #cbd3df;padding:14px;width:100%;font-size:16px;margin-top:16px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.primary,.secondary{border:1px solid transparent;padding:12px 15px;border-radius:12px;font-weight:700;min-height:45px}.primary{background:var(--blue);color:white;flex:1}.primary:disabled{opacity:.5;cursor:not-allowed}.secondary{background:#f0f3f8;border-color:var(--line);color:var(--ink)}.navbtn{background:transparent;border:0;padding:10px;color:var(--mute);font-size:12px;font-weight:700}.stats{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.stat{background:#f2f5f8;padding:9px 11px;border-radius:9px;font-size:12px;font-weight:700}
+.week{display:grid;gap:9px;margin-top:12px}.day{border-radius:13px;display:flex;align-items:center;text-align:left;gap:12px;width:100%;padding:12px;background:#f5f7fa;border:1px solid var(--line);color:var(--ink)}.day .num{width:33px;height:33px;display:grid;place-items:center;border-radius:10px;background:white;font-size:12px;font-weight:800;flex:none}.day .label{flex:1;min-width:0}.day strong{display:block}.day small{display:block;color:var(--mute)}.day[aria-pressed="true"]{background:#eaf4ff;border-color:#b5d5f6}.day .checkmark{color:var(--green);font-weight:800}
+.exercise{display:grid;gap:12px}.exercise-head{display:flex;align-items:center;gap:12px}.ico{width:49px;height:49px;background:#eff3f9;color:#397ab7;border-radius:12px;display:grid;place-items:center;font-size:23px;flex:none}.exercise-head div:nth-child(2){flex:1;min-width:0}.tag{color:var(--mute);font-size:11px;font-weight:750;letter-spacing:.045em}.details{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:13px}.details>span{color:var(--mute)}
+.sets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.set{display:flex;align-items:center;background:#f2f4f7;border-radius:10px;padding:10px 8px;gap:7px;min-width:0;font-size:12px;font-weight:650}.set input,.single input{accent-color:var(--green);width:19px;height:19px;flex:none;margin:0}.set span{white-space:nowrap}.toggle{border:0;background:transparent;color:#53708e;font-weight:750;font-size:12px;padding:9px 0;text-align:center;width:100%}.instructions{padding:12px;border-radius:10px;background:#f1f4f7;color:#4c5c70;font-size:13px}.row-check{display:flex;align-items:center;gap:13px}.row-check>div{flex:1}.single{display:flex;align-items:center;gap:7px}
+.small{font-size:12px;color:var(--mute)}.alert{background:#fff8e9;border:1px solid #f2dba4;color:#664c16;border-radius:12px;padding:13px;font-size:12px}.well{padding:13px;border:1px solid #ccebd8;border-radius:12px;background:#f2fcf6;color:#256342;font-size:13px}
+.pills{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}.soft-link{color:var(--blue);font-size:12px;font-weight:700;text-decoration:underline}.hidden{display:none!important}.footer{font-size:11px;color:var(--mute);text-align:center;margin-top:24px}.empty{color:var(--mute);font-size:13px}
+@media(min-width:600px){main{padding-top:35px}.card{padding:24px}.hero{padding:29px}h1{font-size:32px}.sets{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><a class="brand" href="./"><span class="emblem" aria-hidden="true">✦</span><span>Univers Coaching</span></a><a class="back" href="./">← Accueil</a></header>
+<section id="onboarding">
+ <div class="hero"><span class="eyebrow">Mon coach interactif</span><h1>Un programme<br>construit avec toi.</h1><p class="muted">Réponds à quelques questions. Ton programme de la semaine sera composé selon tes réponses, puis tu pourras suivre chaque série.</p></div>
+ <div class="card" aria-labelledby="qtitle">
+   <div class="line"><span class="eyebrow" id="step-label">Question 1 sur 7</span><span class="muted" id="step-percent">14 %</span></div>
+   <div class="progress" aria-hidden="true"><div id="wizard-progress"></div></div>
+   <h2 id="qtitle"></h2><p class="muted" id="qdesc"></p>
+   <div id="answer" class="questions"></div><div class="actions"><button id="prev" type="button" class="secondary">← Retour</button><button id="continue" class="primary" type="button">Continuer →</button></div>
+ </div>
+ <p class="footer">Pas de compte et aucune donnée envoyée : le programme reste sur cet appareil.</p>
+</section>
+<section id="dashboard" class="hidden">
+  <div class="hero"><span class="eyebrow">Ton programme personnalisé</span><h1 id="hello">Ton programme</h1><p class="muted" id="summary"></p><div class="stats" id="stats"></div><button id="edit" class="secondary" type="button">Modifier mes réponses</button></div>
+  <div class="card"><div class="line"><h2>Ma semaine</h2><span class="muted" id="week-info"></span></div><div class="week" id="day-picker"></div></div>
+  <div class="line" style="margin:24px 3px 0"><h2 id="session-title">Ma séance</h2><span id="day-count" class="muted"></span></div>
+  <div class="progress" aria-label="Progression de la séance" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="session-progress"><div id="session-fill"></div></div>
+  <div id="session-content" class="gap"></div>
+  <div class="card gap" id="session-end"><button class="primary" id="finish" type="button">Terminer cette séance ✓</button><button class="secondary" id="repeat" type="button">Recommencer cette séance</button></div>
+  <div class="card"><div class="line"><h2>Mon historique</h2><span class="tag">Sur cet appareil</span></div><div id="history" class="small" style="margin-top:10px"></div></div>
+  <div class="alert" style="margin-top:14px">Programme indicatif de remise en forme, sans diagnostic médical. Évite les mouvements douloureux. Si une blessure, une maladie ou une limitation rend l'effort incertain, demande un avis professionnel adapté avant de suivre ce programme. Commence avec une charge légère permettant une technique maîtrisée.</div>
+  <p class="footer">La personnalisation est calculée sur cette page, sans intelligence artificielle externe ni envoi de données.</p>
+</section>
+</main>
+<script>
+(function(){
+"use strict";
+const STORE="univers-coaching-profil-v1";
+const questions=[
+ {key:"name",title:"Comment dois-je t'appeler ?",desc:"Facultatif : un prénom suffit. Tu peux rester anonyme.",type:"text"},
+ {key:"goal",title:"Quel est ton objectif principal ?",desc:"Ton objectif détermine les répétitions et l'organisation des séances.",type:"choice",options:[["forme","Bouger et me remettre en forme","Reprendre progressivement une activité régulière"],["muscle","Développer mes muscles","Progresser sur les mouvements de renforcement"],["force","Gagner en force","Travailler avec un peu plus de récupération"]]},
+ {key:"level",title:"Où en es-tu aujourd'hui ?",desc:"On adapte le nombre de séries, sans forcer la progression.",type:"choice",options:[["debutant","Débutant ou reprise","Deux séries par exercice, intensité modérée"],["habitue","Déjà habitué","Trois séries et davantage de variations"]]},
+ {key:"place",title:"Tu t'entraînes où ?",desc:"Les exercices proposés dépendent du matériel.",type:"choice",options:[["maison","À la maison","Poids du corps et objets du quotidien"],["salle","À la salle","Machines et matériel courant"]]},
+ {key:"duration",title:"Combien de temps as-tu par séance ?",desc:"On adapte le nombre d'exercices, échauffement compris.",type:"choice",options:[[20,"20 minutes","Séance courte"],[35,"35 minutes","Bon équilibre"],[50,"50 minutes","Séance plus complète"]]},
+ {key:"days",title:"Combien de séances par semaine ?",desc:"Tu pourras les répartir sur des jours non consécutifs quand c'est possible.",type:"choice",options:[[2,"2 séances","Simple à tenir"],[3,"3 séances","Rythme régulier"],[4,"4 séances","Programme haut/bas du corps"]]},
+ {key:"focus",title:"Une priorité particulière ?",desc:"On ajuste l'ordre des mouvements sans négliger le reste du corps.",type:"choice",options:[["equilibre","Tout le corps","Développement équilibré"],["haut","Haut du corps","Pectoraux, dos et épaules"],["bas","Bas du corps","Cuisses et fessiers"]]}
+];
+const catalogue={
+ maison:{
+  jambes:[["Squat vers une chaise","Cuisses","🦵","Reculer les hanches vers une chaise stable, garder les pieds au sol et remonter sans élan."],["Squat libre","Cuisses","🦵","Pieds à largeur d'épaules, descendre dans une amplitude confortable puis remonter en contrôle."],["Fente arrière assistée","Cuisses et équilibre","🦵","Se tenir à un support stable et reculer un pied en gardant le buste droit."]],
+  hanches:[["Pont fessier","Fessiers","⬆️","Dos au sol et genoux pliés : relever le bassin sans exagérer la cambrure."],["Soulevé de bassin au canapé","Fessiers","⬆️","Dos appuyé sur un support stable, pousser dans les talons et monter les hanches sans douleur."],["Charnière de hanches avec sac léger","Chaîne postérieure","⬆️","Fléchir les hanches avec le dos neutre, tenir un sac fermé et léger près du corps."]],
+  poussee:[["Pompes contre un mur","Pectoraux / triceps","💪","Mains au mur, corps gainé : fléchir les coudes et pousser sans à-coup."],["Pompes inclinées","Pectoraux / triceps","💪","Mains sur un support réellement stable, aligner le corps et descendre lentement."],["Pompes sur genoux","Pectoraux / triceps","💪","Garder le ventre engagé et descendre avec contrôle, sans creuser le dos."]],
+  tirage:[["Rowing avec sac léger","Dos / biceps","🏋️","Sac fermé en main, buste légèrement penché et dos neutre, tirer vers le ventre."],["Rowing un bras avec sac","Dos / biceps","🏋️","Se stabiliser avec l'autre main et ramener le sac vers la hanche sans tordre le dos."],["Rowing avec deux bouteilles","Dos / biceps","🏋️","Buste penché, coudes près du corps : tirer les bouteilles vers les hanches."]],
+  epaules:[["Élévations latérales légères","Épaules","↗️","Lever deux bouteilles légères sans hausser les épaules, puis redescendre doucement."],["Développé épaules avec bouteilles","Épaules","↗️","Pousser des bouteilles légères vers le haut dans une amplitude confortable."],["Élévations frontales légères","Épaules","↗️","Monter lentement les bras devant soi jusqu'à une amplitude confortable."]],
+  centre:[["Dead bug","Gainage","🛡️","Dos au sol, garder le tronc stable et étendre alternativement bras et jambe opposée."],["Gainage sur genoux","Gainage","🛡️","Sur les avant-bras et les genoux, aligner épaules, hanches et genoux, respirer."],["Bird dog","Gainage","🛡️","À quatre pattes, étendre bras et jambe opposés en gardant le bassin stable."]],
+  unilateral:[["Fente arrière assistée","Cuisses","🦵","Utiliser un appui stable, reculer une jambe et se relever lentement."],["Montée sur marche basse","Jambes","🦵","Monter sur une marche stable de faible hauteur, contrôler la descente."],["Squat pieds décalés","Jambes","🦵","Décaler légèrement un pied, fléchir avec maîtrise, changer de côté."]],
+  bras:[["Flexion biceps avec bouteilles","Biceps","💪","Coudes proches du buste, plier les bras lentement avec des bouteilles légères."],["Extension triceps avec bouteille","Triceps","💪","Tenir une bouteille légère, tendre les coudes sans forcer les épaules."],["Curl marteau avec bouteilles","Biceps","💪","Paumes vers l'intérieur, remonter puis redescendre lentement."]]
+ },
+ salle:{
+  jambes:[["Presse à cuisses","Cuisses","🦵","Régler le siège et conserver les pieds à plat. Descendre dans une amplitude confortable."],["Squat guidé léger","Cuisses","🦵","Commencer sans charge lourde, fléchir les hanches et les genoux avec contrôle."],["Extension des jambes","Quadriceps","🦵","Ajuster l'axe de la machine aux genoux, lever et redescendre lentement."]],
+  hanches:[["Leg curl assis","Ischio-jambiers","⬆️","Régler le siège, fléchir les genoux sans à-coup puis revenir lentement."],["Hip thrust guidé","Fessiers","⬆️","Pousser dans les pieds et relever le bassin sans cambrure excessive."],["Pont fessier au sol","Fessiers","⬆️","Monter les hanches en contractant les fessiers et garder le tronc stable."]],
+  poussee:[["Développé poitrine guidé","Pectoraux / triceps","💪","Ajuster la hauteur du siège, pousser les poignées sans verrouillage brusque."],["Développé poitrine avec haltères légers","Pectoraux","💪","Sur un banc stable, descendre lentement les haltères dans une amplitude confortable."],["Pompes inclinées","Pectoraux","💪","Appuyer les mains sur un support fixé et stable et plier les coudes."]],
+  tirage:[["Tirage horizontal","Dos / biceps","🏋️","Épaules basses, tirer les poignées vers l'abdomen sans balancer le buste."],["Tirage vertical","Dos / biceps","🏋️","Ramener la barre devant soi vers le haut de poitrine avec les épaules basses."],["Rowing haltère un bras","Dos","🏋️","S'appuyer sur un banc stable et tirer l'haltère vers la hanche."]],
+  epaules:[["Développé épaules guidé","Épaules","↗️","Ajuster le siège, pousser les poignées dans une amplitude confortable."],["Élévations latérales légères","Épaules","↗️","Monter les bras jusqu'à une amplitude confortable sans haussement d'épaules."],["Reverse pec deck léger","Arrière d'épaules","↗️","Régler les poignées et ouvrir les bras avec contrôle."]],
+  centre:[["Gainage sur tapis","Gainage","🛡️","Maintenir l'alignement du corps en respirant. Poser les genoux si besoin."],["Dead bug sur tapis","Gainage","🛡️","Garder le tronc stable et alterner l'extension des membres opposés."],["Pallof press léger","Gainage","🛡️","À la poulie légère, pousser les mains devant soi en résistant à la rotation."]],
+  unilateral:[["Step-up sur marche basse","Jambes","🦵","Monter puis redescendre d'une marche stable et basse en contrôlant le mouvement."],["Fentes avec appui","Jambes","🦵","S'aider d'un support stable, avancer et descendre dans une amplitude confortable."],["Presse à cuisses légère","Cuisses","🦵","Utiliser une charge maîtrisable et une amplitude adaptée."]],
+  bras:[["Curl biceps à la poulie","Biceps","💪","Garder les coudes au corps et tirer sans balancer le buste."],["Extension triceps à la poulie","Triceps","💪","Épaules basses, tendre les bras en stabilisant les coudes."],["Curl haltères légers","Biceps","💪","Lever et redescendre les haltères sans élan."]]
+ }
+};
+const templates={
+ 2:[["Full Body A",["jambes","poussee","tirage","hanches","centre","epaules"]],["Full Body B",["hanches","tirage","poussee","unilateral","centre","bras"]]],
+ 3:[["Full Body A",["jambes","poussee","tirage","hanches","centre","epaules"]],["Full Body B",["hanches","tirage","epaules","unilateral","centre","bras"]],["Full Body C",["unilateral","poussee","tirage","jambes","centre","bras"]]],
+ 4:[["Haut du corps A",["poussee","tirage","epaules","bras","centre","tirage"]],["Bas du corps A",["jambes","hanches","unilateral","centre","jambes","hanches"]],["Haut du corps B",["tirage","poussee","bras","epaules","centre","poussee"]],["Bas du corps B",["hanches","jambes","unilateral","centre","hanches","jambes"]]]
+};
+const $=id=>document.getElementById(id);
+const escape=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const defaults={name:"",goal:"forme",level:"debutant",place:"maison",duration:35,days:3,focus:"equilibre"};
+let state={profile:null,answers:{...defaults},active:0,done:{},swaps:{},history:[]},step=0;
+try{const raw=JSON.parse(localStorage.getItem(STORE)||"null");if(raw&&raw.profile&&Number.isInteger(raw.profile.days)&&[2,3,4].includes(raw.profile.days)&&["salle","maison"].includes(raw.profile.place)){state={...state,...raw,answers:{...defaults,...raw.profile},done:raw.done||{},swaps:raw.swaps||{},history:Array.isArray(raw.history)?raw.history.slice(0,50):[]};}}catch(err){}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(err){}}
+function pickOption(index){const q=questions[step];state.answers[q.key]=q.options[index][0];renderQuestion();}
+function renderQuestion(){
+ const q=questions[step];$("onboarding").classList.remove("hidden");$("dashboard").classList.add("hidden");
+ $("step-label").textContent="Question "+(step+1)+" sur "+questions.length;$("step-percent").textContent=Math.round((step+1)/questions.length*100)+" %";$("wizard-progress").style.width=((step+1)/questions.length*100)+"%";$("qtitle").textContent=q.title;$("qdesc").textContent=q.desc;$("prev").disabled=step===0;
+ const wrap=$("answer");wrap.replaceChildren();
+ if(q.type==="text"){const inp=document.createElement("input");inp.type="text";inp.maxLength=32;inp.autocomplete="given-name";inp.className="input-name";inp.placeholder="Ton prénom (facultatif)";inp.value=state.answers.name||"";inp.addEventListener("input",()=>state.answers.name=inp.value);inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();next();}});wrap.append(inp);}
+ else q.options.forEach((option,i)=>{const btn=document.createElement("button");btn.type="button";btn.className="choice";btn.setAttribute("aria-pressed",String(state.answers[q.key]===option[0]));const strong=document.createElement("strong"),small=document.createElement("small");strong.textContent=option[1];small.textContent=option[2];btn.append(strong,small);btn.addEventListener("click",()=>pickOption(i));wrap.append(btn);});
+ $("continue").textContent=step===questions.length-1?"Créer mon programme ✓":"Continuer →";
+}
+function next(){if(step<questions.length-1){step++;renderQuestion();}else{if(state.profile&&!confirm("Modifier ton programme réinitialisera les coches en cours. Conserver l'historique ?"))return;state.profile={...defaults,...state.answers,name:String(state.answers.name||"").trim().slice(0,32)};state.done={};state.swaps={};state.active=0;save();renderDashboard();}}
+function getTemplates(){const p=state.profile;const arr=templates[p.days].map((row,idx)=>({title:row[0],patterns:row[1].slice(0,p.duration===20?4:p.duration===35?5:6),index:idx}));if(p.focus!=="equilibre"){const wanted=p.focus==="haut"?["poussee","tirage","epaules","bras"]:["jambes","hanches","unilateral"];arr.forEach(s=>s.patterns.sort((a,b)=>Number(wanted.includes(b))-Number(wanted.includes(a))));}return arr;}
+function movement(pattern,day,slot){const p=state.profile,choices=catalogue[p.place][pattern]||catalogue[p.place].centre;const key=day+"-"+slot;const offset=Number.isInteger(state.swaps[key])?state.swaps[key]:((day+slot+p.days)%choices.length);return {id:key,pattern,list:choices,pick:offset%choices.length,info:choices[offset%choices.length]};}
+function repetitions(pattern){const p=state.profile;if(pattern==="centre")return "20–30 secondes";if(p.goal==="force")return "6–10 répétitions";if(p.goal==="muscle")return "8–12 répétitions";return "10–15 répétitions";}
+function seriesCount(){const p=state.profile;return p.duration===20?2:p.level==="debutant"?2:3;}
+function sessionKeys(i){const s=getTemplates()[i],set=seriesCount();return ["w"+i,"c"+i,...s.patterns.flatMap((_,j)=>Array.from({length:set},(_,k)=>"d"+i+"-s"+j+"-"+k))];}
+function progress(i){const keys=sessionKeys(i),done=keys.filter(k=>!!state.done[k]).length;return {done,total:keys.length,ratio:Math.round(100*done/keys.length)};}
+function tallyHistory(){return state.history.length;}
+function create(tag,cls,text){const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el;}
+function checkRow(key,label,desc){const c=create("article","card"),row=create("div","row-check"),icon=create("span","ico",key.startsWith("w")?"🔥":"♡"),body=create("div");const title=create("h3","",label),small=create("p","muted",desc),checkboxLabel=create("label","single"),checkbox=create("input");checkbox.type="checkbox";checkbox.checked=!!state.done[key];checkbox.setAttribute("aria-label",label+" effectué");checkbox.addEventListener("change",()=>{state.done[key]=checkbox.checked;save();updateCurrentProgress();});checkboxLabel.append(checkbox);body.append(title,small);row.append(icon,body,checkboxLabel);c.append(row);return c;}
+function renderDashboard(){
+ const p=state.profile;if(!p){renderQuestion();return;}
+ $("onboarding").classList.add("hidden");$("dashboard").classList.remove("hidden");
+ $("hello").textContent=p.name?"Ton programme, "+p.name:"Ton programme, à ton rythme";
+ $("summary").textContent="Un plan de "+p.days+" séances par semaine, construit selon tes réponses. Tu peux changer les exercices et cocher tes séries à ton rythme.";
+ const labs={forme:"Remise en forme",muscle:"Développement musculaire",force:"Force",maison:"Maison",salle:"Salle"};$("stats").innerHTML="<span class='stat'>"+labs[p.goal]+"</span><span class='stat'>"+labs[p.place]+"</span><span class='stat'>"+escape(p.duration)+" min</span><span class='stat'>"+escape(p.days)+" séances</span>";
+ $("week-info").textContent=p.days+" séances / semaine";
+ const days=getTemplates(),list=$("day-picker");list.replaceChildren();
+ days.forEach((d,i)=>{const progressDay=progress(i),button=create("button","day");button.type="button";button.setAttribute("aria-pressed",String(i===state.active));const num=create("span","num",String(i+1)),lbl=create("span","label"),name=create("strong","",d.title),desc=create("small","",d.patterns.length+" exercices · "+progressDay.done+"/"+progressDay.total+" étapes"),indicator=create("span","checkmark",state.history.some(h=>h.day===i)?"✓":"→");lbl.append(name,desc);button.append(num,lbl,indicator);button.addEventListener("click",()=>{state.active=i;save();renderDashboard();});list.append(button);});
+ $("session-title").textContent=days[state.active].title;
+ renderSession();renderHistory();
+}
+function renderSession(){
+ const day=state.active,d=getTemplates()[day],p=state.profile,root=$("session-content");root.replaceChildren();
+ root.append(checkRow("w"+day,"Échauffement — 5 minutes","Marche active et mobilisation douce des articulations."));
+ d.patterns.forEach((pattern,j)=>{
+  const data=movement(pattern,day,j),card=create("article","card exercise"),head=create("div","exercise-head"),ico=create("span","ico",data.info[2]),copy=create("div");copy.append(create("p","tag","EXERCICE "+(j+1)+" · "+data.info[1]),create("h3","",data.info[0]));
+  const ok=Array.from({length:seriesCount()},(_,k)=>!!state.done["d"+day+"-s"+j+"-"+k]).every(Boolean);head.append(ico,copy,create("span","checkmark",ok?"✓":""));
+  const details=create("div","details");details.append(create("strong","",repetitions(pattern)),create("span","",seriesCount()+" séries · "+(p.goal==="force"?"90–120":"60–90")+" sec"));
+  const sets=create("div","sets");
+  for(let k=0;k<seriesCount();k++){const key="d"+day+"-s"+j+"-"+k,label=create("label","set"),input=create("input"),span=create("span","","Série "+(k+1));input.type="checkbox";input.checked=!!state.done[key];input.setAttribute("aria-label",data.info[0]+" série "+(k+1));input.addEventListener("change",()=>{state.done[key]=input.checked;save();updateCurrentProgress();});label.append(input,span);sets.append(label);}
+  const instructions=create("p","instructions",data.info[3]),tog=create("button","toggle","Voir comment faire ↓");tog.type="button";instructions.hidden=true;tog.addEventListener("click",()=>{instructions.hidden=!instructions.hidden;tog.textContent=instructions.hidden?"Voir comment faire ↓":"Masquer les conseils ↑";});
+  const swap=create("button","toggle","Changer cet exercice ↻");swap.type="button";swap.addEventListener("click",()=>{state.swaps[data.id]=(data.pick+1)%data.list.length;for(let k=0;k<seriesCount();k++)delete state.done["d"+day+"-s"+j+"-"+k];save();renderDashboard();});
+  card.append(head,details,sets,tog,instructions,swap);root.append(card);
+ });
+ root.append(checkRow("c"+day,"Retour au calme — 3 minutes","Marche lente, respiration et mobilité confortable."));
+ updateCurrentProgress();
+}
+function updateCurrentProgress(){
+ const pr=progress(state.active);$("day-count").textContent=pr.done+" / "+pr.total+" étapes";$("session-fill").style.width=pr.ratio+"%";$("session-progress").setAttribute("aria-valuenow",pr.ratio);
+ $("finish").disabled=pr.done!==pr.total;$("finish").textContent=pr.done===pr.total?"Enregistrer la séance terminée ✓":"Coche toutes les étapes ("+pr.done+"/"+pr.total+")";
+ if(pr.done===pr.total&&!state.history.some(x=>x.day===state.active&&x.signature===signature()&&x.stamp===new Date().toLocaleDateString("fr-FR"))){$("finish").disabled=false;}
+ else if(state.history.some(x=>x.day===state.active&&x.signature===signature()&&x.stamp===new Date().toLocaleDateString("fr-FR"))){$("finish").disabled=true;$("finish").textContent="Séance enregistrée aujourd'hui ✓";}
+}
+function signature(){const p=state.profile;return [p.days,p.duration,p.place,p.level,p.goal,p.focus].join("|");}
+function finish(){const pr=progress(state.active);if(pr.done!==pr.total)return;const stamp=new Date().toLocaleDateString("fr-FR");if(state.history.some(h=>h.day===state.active&&h.signature===signature()&&h.stamp===stamp))return;state.history.unshift({day:state.active,title:getTemplates()[state.active].title,stamp,signature:signature()});state.history=state.history.slice(0,50);save();renderDashboard();}
+function renderHistory(){const r=$("history");r.replaceChildren();if(!tallyHistory())r.append(create("p","empty","Tes séances terminées apparaîtront ici."));else state.history.slice(0,8).forEach(h=>r.append(create("p","",h.stamp+" — "+h.title)));}
+$("prev").addEventListener("click",()=>{if(step){step--;renderQuestion();}});
+$("continue").addEventListener("click",next);
+$("edit").addEventListener("click",()=>{state.answers={...state.profile};step=0;renderQuestion();window.scrollTo({top:0,behavior:"instant"});});
+$("finish").addEventListener("click",finish);
+$("repeat").addEventListener("click",()=>{if(!confirm("Recommencer cette séance et décocher ses étapes ? L'historique sera conservé."))return;sessionKeys(state.active).forEach(k=>delete state.done[k]);save();renderDashboard();});
+if(state.profile)renderDashboard();else renderQuestion();
+})();
+</script>
+</body>
+</html>
