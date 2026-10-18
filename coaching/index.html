@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8f9fb">
+  <meta name="description" content="Univers Coaching : séances de musculation interactives, progression et conseils accessibles sans abonnement.">
+  <title>Univers Coaching — Mes séances</title>
+  <style>
+    :root{color-scheme:light;--bg:#f8f9fb;--paper:#fff;--ink:#191d26;--muted:#65707f;--line:#e5e8ee;--accent:#2878cb;--mint:#e6f5ed;--green:#22835c}
+    *{box-sizing:border-box}html{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}body{margin:0;background:var(--bg);color:var(--ink);line-height:1.45}
+    main{width:min(100%,680px);min-height:100dvh;margin:0 auto;padding:28px 16px 52px}
+    .eyebrow{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+    .head{display:flex;align-items:center;gap:12px;margin-bottom:28px}.logo{width:45px;height:45px;border-radius:13px;display:grid;place-items:center;background:#e7f1ff;color:var(--accent)}
+    svg{width:23px;height:23px;stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}.head h1{font-size:17px;margin:0}.head p{color:var(--muted);font-size:12px;margin:3px 0 0}
+    .intro{border:1px solid var(--line);background:var(--paper);border-radius:20px;padding:23px 20px;margin-bottom:15px}
+    h2{font-size:29px;letter-spacing:-.04em;line-height:1.14;margin:10px 0}p{margin:0}.intro>p:last-child{font-size:14px;color:var(--muted);line-height:1.6;margin-top:12px}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:19px;padding:20px;margin-top:13px}
+    .card-head{display:flex;align-items:center;gap:12px}.card-icon{width:56px;height:56px;display:grid;place-items:center;background:#e8f1fc;border-radius:14px;color:var(--accent);flex:none}.card-icon svg{width:30px;height:30px}.card h3{font-size:19px;letter-spacing:-.02em;margin:0}.sub{font-size:13px;color:var(--muted);margin-top:3px}
+    .facts{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.fact{font-size:12px;background:#f2f4f7;border-radius:10px;padding:8px 10px;font-weight:700}
+    .cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:49px;border-radius:12px;background:var(--accent);color:#fff;text-decoration:none;font-size:15px;font-weight:750;text-align:center;padding:12px}.cta svg{width:18px;height:18px}.cta:focus-visible{outline:3px solid #90bbeb;outline-offset:3px}.cta:hover{background:#1d65ae}
+    .note{display:flex;gap:9px;align-items:center;margin-top:14px;color:var(--green);font-size:12px;font-weight:600}.note svg{width:17px;height:17px}.foot{font-size:12px;color:var(--muted);text-align:center;margin-top:28px}
+    @media(min-width:600px){main{padding-top:44px}.intro{padding:30px}.card{padding:26px}}
+    @media(prefers-reduced-motion:no-preference){.cta{transition:background .15s,transform .15s}.cta:active{transform:scale(.992)}}
+  </style>
+</head>
+<body>
+  <main>
+    <header class="head">
+      <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 6.5 11 11M3 8l5-5M16 21l5-5M2 11l9-9M13 22l9-9"/></svg></span>
+      <div><h1>Univers Coaching</h1><p>Un entraînement à la fois, à ton rythme.</p></div>
+    </header>
+    <section class="intro">
+      <p class="eyebrow">Mon espace musculation</p>
+      <h2>Ta séance.<br>Ta progression.</h2>
+      <p>Des entraînements clairs et interactifs : choisis où tu t'entraînes, adapte la difficulté, coche tes séries et retrouve ta progression sur cet appareil.</p>
+    </section>
+    <section class="card" aria-labelledby="session-title">
+      <div class="card-head">
+        <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 6.5 11 11M3 8l5-5M16 21l5-5M2 11l9-9M13 22l9-9"/></svg></span>
+        <div><h3 id="session-title">Séance Full Body</h3><p class="sub">Renforcement de tout le corps</p></div>
+      </div>
+      <div class="facts"><span class="fact">25–40 min</span><span class="fact">5 exercices</span><span class="fact">Maison / Salle</span><span class="fact">2 niveaux</span></div>
+      <a class="cta" href="./seance-musculation.html">Commencer ma séance <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+      <p class="note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sans compte, sans frais supplémentaires</p>
+    </section>
+    <p class="foot">Ton suivi est enregistré localement sur l'appareil utilisé. Aucun compte n'est nécessaire.</p>
+  </main>
+</body>
+</html>
