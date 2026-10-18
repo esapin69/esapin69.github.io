@@ -52,6 +52,15 @@ function respond(s,key,value,date=new Date().toISOString()){
  if(!q||!q.choices.some(x=>x[0]===value)||typeof key!=="string"||(!key.endsWith(":basic")&&!q.contextual))throw Error("Réponse invalide.");
  const intake=currentIntake(s),profile={...(s?.profile||{})};
  intake.answers[key]={value,at:date};delete intake.skipped[key];intake.updatedAt=date;
+ // Keep the first answers and only the 40 most recent context-specific decisions, avoiding unbounded storage and quota growth.
+ for(const field of ["answers","skipped"]){
+  const keys=Object.keys(intake[field]).filter(k=>!k.endsWith(":basic")).sort((a,b)=>{
+   const ta=field==="answers"?intake[field][a]?.at:intake[field][a];
+   const tb=field==="answers"?intake[field][b]?.at:intake[field][b];
+   return Date.parse(tb||"")-Date.parse(ta||"");
+  });
+  for(const stale of keys.slice(40))delete intake[field][stale];
+ }
  profile.intake=intake;
  let replan=false,signal=null,explicitWarning=null;
  if(questionId==="objective"){if(formats[value])profile.objective=formats[value];else explicitWarning="Tu peux préciser ton objectif dans Profil."; }
