@@ -49,6 +49,7 @@ function authStatus(message){
  $("auth-guest").classList.toggle("hidden",!!identity);
  $("auth-user").classList.toggle("hidden",!identity);
  $("signed-email").textContent=identity?(identity.email||"Compte connecté"):"";
+ const legacy=!!localStorage.getItem("univers-coaching-profil-v1");$("import-legacy").classList.toggle("hidden",!identity||!legacy||!!localStorage.getItem("coach-legacy-imported-"+(identity?.id||"")));
  $("sync-status").textContent=message||"";
 }
 async function refresh(){
@@ -266,6 +267,16 @@ async function init(){
  $("signin").addEventListener("click",()=>authenticate("signin"));
  $("signup").addEventListener("click",()=>authenticate("signup"));
  $("signout").addEventListener("click",logout);
+ $("import-legacy").addEventListener("click",async()=>{
+   if(!identity)return;
+   let old;try{old=JSON.parse(localStorage.getItem("univers-coaching-profil-v1")||"null");}catch(_){}
+   if(!old?.profile){toast("Ancien profil introuvable.");return;}
+   if(!confirm("Récupérer les préférences de l'ancien programme dans CE compte ? Les notes d'anciennes séances seront importées, mais les séries de l'ancien module resteront visibles dans celui-ci."))return;
+   const p=old.profile;
+   state.profile={...state.profile,name:String(p.name||state.profile.name||"").slice(0,60),objective:String(p.goal||state.profile.objective||"").slice(0,3000),equipment:p.place==="salle"?"salle":"maison",minutes:[20,35,50].includes(Number(p.duration))?Number(p.duration):state.profile.minutes,weekly:[1,2,3,4].includes(Number(p.days))?Number(p.days):state.profile.weekly,focus:["haut","bas"].includes(p.focus)?p.focus:"equilibre"};
+   try{await saveProfile();for(const h of Array.isArray(old.history)?old.history.slice(-100):[]){recordEvent("journal",{signal:"legacy",text:"Ancien programme : "+String(h.title||"Séance")+" — "+String(h.stamp||"date non indiquée")+" (archive d'origine conservée)."});}await flushPending();localStorage.setItem("coach-legacy-imported-"+identity.id,"1");render();toast("Ancien profil et historique disponibles dans ce compte.");}
+   catch(err){authStatus("Import incomplet, reprise possible : "+err.message);}
+ });
  $("sync").addEventListener("click",async()=>{try{if(busy){toast("La synchronisation est déjà en cours.");return;}await flushPending();if(state.pending.length){toast("Des événements sont encore en attente.");return;}const remote=await cloudRead();state=remote;cache();render();toast("Données rechargées.");}catch(e){authStatus("Synchronisation impossible : "+e.message);}});
  $("add-note").addEventListener("click",()=>{const text=$("journal-text").value.trim();if(!text){toast("Écris ton observation.");return;}const signal=document.querySelector("input[name=signal]:checked")?.value||"none";recordEvent("journal",{text,signal});$("journal-text").value="";render();toast("Observation enregistrée.");});
  $("save-prefs").addEventListener("click",async()=>{const before=JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});state.profile={name:$("who").value.trim().slice(0,60),objective:$("why").value.trim().slice(0,3000),constraints:$("constraints").value.trim().slice(0,5000),equipment:$("equipment").value,minutes:Number($("minutes").value),weekly:Number($("weekly").value),focus:$("focus").value};cache();try{await saveProfile();}catch(e){authStatus("Profil local conservé ; cloud non synchronisé : "+e.message);}const changed=before!==JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});if(changed&&!hasChecked())await newPlan();else{toast(changed?"Repères sauvegardés. Une séance est en cours : tes séries sont conservées.":"Repères sauvegardés sans effacer ton histoire.");render();}});
