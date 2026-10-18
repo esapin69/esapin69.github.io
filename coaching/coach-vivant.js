@@ -147,6 +147,12 @@ async function setSession(value){
   else if(evt.kind==="session")remote.sessions.push({id:evt.id,...evt.payload,finished:evt.at});
   else if(evt.kind==="measurement")remote.weights.push({id:evt.id,...evt.payload});
   else if(evt.kind==="schedule"&&evt.payload?.date)remote.scheduled=evt.payload.date;
+  else if(evt.kind==="checkin"&&evt.payload?.plan_id===remote.current?.id&&Array.isArray(evt.payload?.checks)){
+   for(const item of evt.payload.checks){
+    const movement=remote.current.exercises.find(e=>e.id===item.id);
+    if(movement&&Array.isArray(item.checks)&&item.checks.length===movement.sets)movement.checks=item.checks.map(Boolean);
+   }
+  }
  }
  state=remote;
  sessionStorage.setItem(AUTH,JSON.stringify(session));
