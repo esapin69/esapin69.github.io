@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10251e">
+<meta name="description" content="Espace Formation — sport, alimentation et parcours de coaching. Site de secours indépendant de Cloudflare.">
+<title>Espace Formation — Sport & alimentation</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color-scheme:light;--ink:#18251f;--muted:#617069;--green:#1f7a55;--green2:#154c37;--line:#dce8e1;--bg:#f3f7f4;--paper:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:92px}body{margin:0;background:var(--bg);color:var(--ink);line-height:1.55}
+a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}button{cursor:pointer}a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #71bc9c;outline-offset:3px}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.top{max-width:1080px;margin:auto;padding:10px 17px;display:flex;align-items:center;gap:15px;justify-content:space-between}.brand{font-weight:900;font-size:15px;letter-spacing:-.03em;display:flex;align-items:center;gap:8px}.mark{display:inline-grid;place-items:center;width:31px;height:31px;border-radius:10px;background:#dcf4e6;color:var(--green2)}.toplinks{display:flex;gap:10px;align-items:center}.toplinks a{font-size:12px;font-weight:750}.primary{background:var(--green2);color:#fff;border:0;border-radius:12px;padding:12px 16px;font-weight:750;display:inline-block;text-align:center}.primary:hover{background:#0e3d2b}.ghost{background:#fff;color:var(--green2);border:1px solid #b6d6c4;border-radius:12px;padding:11px 15px;font-weight:750;display:inline-block}.ghost:hover{background:#ecf6f0}
+.wrap{width:min(100% - 32px,1010px);margin:auto}.hero{padding:56px 0 30px;display:grid;grid-template-columns:1.3fr .7fr;gap:18px}.hero h1{font-size:clamp(37px,6.5vw,64px);line-height:1.06;letter-spacing:-.065em;margin:10px 0 17px}.hero p{font-size:16px;color:var(--muted);max-width:550px}.eyebrow{font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}.hero-card{padding:23px;border-radius:22px;background:linear-gradient(140deg,#153d2c,#277751);color:white;display:flex;flex-direction:column;justify-content:center;gap:10px}.hero-card strong{font-size:25px;line-height:1.22;letter-spacing:-.04em}.hero-card p{color:#d5ede1;font-size:13px}.hero-card .primary{background:#fff;color:#154c37}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.section{margin:17px 0 37px;scroll-margin-top:90px}.section-head{margin:0 0 15px}.section h2{letter-spacing:-.045em;font-size:clamp(23px,4vw,33px);margin:3px 0 6px}.section-head p{color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.card{border:1px solid var(--line);background:var(--paper);padding:19px;border-radius:19px;min-width:0}.card h3{margin:0 0 8px;font-size:18px;letter-spacing:-.025em}.card p{font-size:13px;color:var(--muted)}.card ul,.card ol{padding-left:21px;color:#42584b;font-size:13px}.card li{margin:6px 0}.tag{display:inline-block;padding:5px 8px;background:#ecf6f0;border-radius:8px;color:#236046;font-size:11px;font-weight:800;margin-bottom:12px}.cards-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:12px;margin-top:15px}.cards-bottom a{font-size:12px;font-weight:800;color:var(--green)}.cards-bottom small{color:var(--muted);font-size:11px}
+details{margin:9px 0;border:1px solid var(--line);border-radius:12px;padding:10px 13px;background:#fff}summary{font-weight:750;cursor:pointer}details p,details ul{font-size:13px;color:var(--muted)}.challenge{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px}.challenge article{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;min-width:0}.challenge strong{display:block;color:var(--green);font-size:12px}.challenge h3{font-size:13px;margin:8px 0 6px}.challenge p{font-size:11px;color:var(--muted);margin:0}
+.field{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:750;color:#344c3e}.field input,.field select,.field textarea{width:100%;border:1px solid #b9d4c5;background:#fff;border-radius:11px;padding:12px;min-height:45px;color:var(--ink)}.field textarea{resize:vertical;min-height:95px}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.formgrid .wide{grid-column:1/-1}.form-note{font-size:12px;color:var(--muted);margin:11px 0}.report{white-space:pre-wrap;word-break:break-word;padding:15px;border:1px solid #bad6c5;background:#f5fbf7;border-radius:13px;font-size:13px;margin-top:14px}.hidden{display:none!important}.legal{font-size:12px;color:var(--muted);margin:20px 0}.notice{padding:13px;border-radius:12px;background:#eaf5ed;border:1px solid #c6ddcd;font-size:12px;color:#325f43;margin:18px 0}.muted{color:var(--muted)}.footer{border-top:1px solid var(--line);padding:23px 0 45px;color:var(--muted);font-size:12px}.footer nav{display:flex;gap:15px;flex-wrap:wrap;margin-top:10px}.pill{padding:5px 9px;font-size:11px;border:1px solid #bcd3c5;border-radius:20px;color:#365a43;display:inline-block;font-weight:750}.jump{padding:0 0 10px;display:flex;gap:8px;overflow:auto;scrollbar-width:thin}.jump a{white-space:nowrap;background:#fff;border:1px solid var(--line);border-radius:50px;padding:9px 13px;font-size:12px;font-weight:750}
+@media(max-width:780px){.hero{grid-template-columns:1fr}.challenge{grid-template-columns:repeat(4,1fr)}.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:550px){.hero{padding-top:28px}.wrap{width:calc(100% - 24px)}.grid,.grid.two{grid-template-columns:1fr}.challenge{grid-template-columns:repeat(2,1fr)}.toplinks .hide-mobile{display:none}.formgrid{grid-template-columns:1fr}.card{padding:17px}.hero-card{padding:20px}.top{padding:9px 12px}.primary,.ghost{min-height:46px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="top"><a href="#accueil" class="brand"><span class="mark">✦</span> Espace Formation</a><div class="toplinks"><a class="hide-mobile" href="#programmes">Programmes</a><a class="hide-mobile" href="#suivi">Mon suivi</a><a class="primary" href="../coach-vivant.html">Mon coach personnel ↗</a></div></div></header>
+<main class="wrap">
+<section class="hero" id="accueil"><div><span class="eyebrow">Sport · Alimentation · Autonomie</span><h1>Apprendre à mieux<br>t'entraîner.</h1><p>Une méthode progressive pour développer des habitudes sportives et alimentaires durables. Comprendre chaque étape permet ensuite de s'entraîner avec davantage d'autonomie.</p><div class="actions"><a class="primary" href="../coach-vivant.html">Ouvrir mon accompagnement</a><a class="ghost" href="#programmes">Explorer les séances gratuites</a></div><p class="legal">Contenus généraux, non médicaux. Adapte le mouvement à ta condition et interromps un exercice douloureux.</p></div><aside class="hero-card"><span class="eyebrow" style="color:#cdebd9">Ton parcours</span><strong>La pratique, l'explication et le suivi.</strong><p>Un espace pour choisir un objectif, démarrer simplement et garder une trace de ta progression.</p><a class="primary" href="#suivi">Préparer mon bilan</a></aside></section>
+<nav aria-label="Accès direct" class="jump"><a href="#objectifs">Objectifs</a><a href="#programmes">Programmes</a><a href="#express">Express</a><a href="#conseils">Conseils</a><a href="#defi">Défi 7 jours</a><a href="#alimentation">Alimentation</a><a href="#suivi">Suivi élève</a><a href="#formations">Formations</a></nav>
+<div class="notice"><strong>Version de secours indépendante :</strong> cette page reprend les rubriques publiques disponibles de l'ancien site Cloudflare. Elle est hébergée sur GitHub Pages, sans dépendre de <code>coaching.esapin.com</code>. Le design, les réservations et les paiements de l'ancien service ne sont pas reproduits.</div>
+<section class="section" id="objectifs"><div class="section-head"><span class="eyebrow">Choisir une direction</span><h2>Ton objectif</h2><p>Commencer selon tes possibilités, puis adapter au fil du temps.</p></div><div class="grid">
+<article class="card"><span class="tag">Poids et habitudes</span><h3>Se remettre en mouvement</h3><p>Réinstaller une activité régulière, entre renforcement et marche, avec des objectifs réalistes.</p><div class="cards-bottom"><small>Départ progressif</small><a href="#programme-poids">Voir le programme →</a></div></article>
+<article class="card"><span class="tag">Renforcement</span><h3>Développer sa musculature</h3><p>Apprendre les mouvements, leur progression et les temps de récupération.</p><div class="cards-bottom"><small>Tout le corps</small><a href="#programme-muscle">Voir le programme →</a></div></article>
+<article class="card"><span class="tag">Reprise</span><h3>Retrouver la forme</h3><p>Reprendre en douceur l'endurance, la mobilité et le rythme des séances.</p><div class="cards-bottom"><small>Sans précipitation</small><a href="#programme-forme">Voir le programme →</a></div></article>
+</div></section>
+<section class="section" id="programmes"><div class="section-head"><span class="eyebrow">Accès libre</span><h2>Programmes gratuits</h2><p>Des bases générales à ajuster selon ton niveau et les mouvements que tu maîtrises.</p></div>
+<div class="grid two">
+<article class="card" id="programme-poids"><span class="tag">20–30 min · 3 fois par semaine</span><h3>Reprise d'activité</h3><p>Commencer par l'aisance et la régularité, sans chercher à épuiser le corps.</p><ul><li>Échauffement : mobilité ou marche dynamique, 5 min</li><li>Squat sans charge : 3 séries de 12</li><li>Pompes contre un support : 3 × 8 à 12</li><li>Fentes arrière : 3 × 10 de chaque côté</li><li>Planche : 3 × 30 s</li><li>Marche : 10 min</li></ul></article>
+<article class="card" id="programme-muscle"><span class="tag">3 séances / semaine · Full body</span><h3>Musculation débutant</h3><p>Construire d'abord une exécution sûre et contrôlée, puis progresser par petites étapes.</p><ul><li>Mobilisation + échauffement : 5–8 min</li><li>Squat ou presse : 3 × 8 à 12</li><li>Tirage pour le dos : 3 × 10</li><li>Développé ou pompes : 3 × 8 à 12</li><li>Charnière de hanches légère : 3 × 10</li><li>Gainage : 3 × 30 à 45 s</li></ul></article>
+<article class="card" id="programme-forme"><span class="tag">2 à 4 fois par semaine</span><h3>Remise en forme</h3><p>Alterner marche, renforcement et récupération pour conserver de l'énergie.</p><ul><li>Marche rapide : 10 min</li><li>Squats contrôlés : 3 × 10</li><li>Tirage léger : 3 × 12</li><li>Pont fessier : 3 × 15</li><li>Gainage latéral : 2 × 20 s par côté</li><li>Retour au calme : 5 min</li></ul></article>
+<article class="card"><span class="tag">10 à 15 min · Sans matériel</span><h3>Mobilité douce</h3><p>Un format accessible pour les jours où l'énergie et le temps sont limités.</p><ul><li>Épaules : mobilisation 1 min</li><li>Hanches : mouvements faciles 2 min</li><li>Dos : chat-vache 2 × 10</li><li>Squat tenu très léger : 3 × 20 s</li><li>Respiration lente : 2 min</li></ul></article>
+</div><div class="actions"><a class="primary" href="../coach-vivant.html">Construire un programme à mon rythme</a><a class="ghost" href="../seance-musculation.html">Ouvrir la séance Full Body</a></div></section>
+<section class="section" id="express"><div class="section-head"><span class="eyebrow">Quand le temps manque</span><h2>Séances express</h2><p>Des circuits simples. Les répétitions ne doivent jamais se faire au détriment de la technique.</p></div><div class="grid">
+<article class="card"><span class="tag">10 minutes</span><h3>Centre du corps</h3><p>Petit circuit en trois passages.</p><ol><li>Planche 30 s</li><li>Abdominaux contrôlés 15 fois</li><li>Montées de genoux lentes 20 fois</li><li>Pause 30 s</li></ol></article>
+<article class="card"><span class="tag">15 minutes</span><h3>Haut du corps</h3><p>Trois à quatre tours selon ton énergie.</p><ol><li>Pompes inclinées 10 fois</li><li>Tirage léger 12 fois</li><li>Extension des bras sur support adapté 8 fois</li><li>Stabilisation des épaules 30 s</li></ol></article>
+<article class="card"><span class="tag">20 minutes</span><h3>Cardio + renforcement</h3><p>Enchaînement modéré sur plusieurs tours.</p><ol><li>Squats 15 fois</li><li>Montées de genoux 30 s</li><li>Fentes arrière 10 par jambe</li><li>Marche dynamique 30 s</li><li>Planche 30 s</li></ol></article>
+</div></section>
+<section class="section" id="conseils"><div class="section-head"><span class="eyebrow">Comprendre avant d'accélérer</span><h2>Conseils essentiels</h2><p>Réponses courtes aux questions les plus fréquentes.</p></div>
+<details><summary>Combien de séances pour débuter ?</summary><p>Deux ou trois séances peuvent suffire. L'important est de choisir une fréquence compatible avec ta vie, puis de l'ajuster.</p></details>
+<details><summary>Cardio ou renforcement pour changer sa composition corporelle ?</summary><p>Les deux peuvent avoir leur place : l'essentiel est une pratique tenable, des habitudes alimentaires adaptées et une récupération correcte.</p></details>
+<details><summary>Que faire quand la progression ralentit ?</summary><p>Revoir le sommeil, la difficulté, la régularité et le programme réellement accompli. Éviter de tout augmenter d'un coup.</p></details>
+<details><summary>Est-ce utile de s'entraîner chaque jour ?</summary><p>La récupération fait partie du parcours. Le meilleur rythme est celui qui peut être maintenu sans accumuler une fatigue excessive.</p></details>
+<details><summary>Comment réduire les risques pendant une séance ?</summary><p>Prévoir un échauffement, travailler le mouvement lentement et progresser graduellement. En cas de douleur inhabituelle, interrompre l'exercice concerné.</p></details>
+</section>
+<section class="section" id="defi"><div class="section-head"><span class="eyebrow">Première étape</span><h2>Défi de reprise sur 7 jours</h2><p>Une petite action quotidienne ; aucun rattrapage obligatoire si un jour est manqué.</p></div><div class="challenge">
+<article><strong>Jour 1</strong><h3>Remettre le corps en route</h3><p>Marche + mobilité légère</p></article>
+<article><strong>Jour 2</strong><h3>Bas du corps</h3><p>Squats, fentes, pont fessier, gainage</p></article>
+<article><strong>Jour 3</strong><h3>Repos actif</h3><p>Marche tranquille et récupération</p></article>
+<article><strong>Jour 4</strong><h3>Haut du corps</h3><p>Pompes adaptées, tirage, épaules</p></article>
+<article><strong>Jour 5</strong><h3>Cardio modéré</h3><p>Une activité facile à maintenir</p></article>
+<article><strong>Jour 6</strong><h3>Tout le corps</h3><p>Quelques mouvements maîtrisés</p></article>
+<article><strong>Jour 7</strong><h3>Faire le point</h3><p>Énergie, fatigue, séances et suite</p></article>
+</div></section>
+<section class="section" id="alimentation"><div class="section-head"><span class="eyebrow">Formation au quotidien</span><h2>Alimentation : des repères, pas des interdits</h2><p>Le suivi alimentaire du site d'origine accompagne l'apprentissage des habitudes. Il ne remplace pas un professionnel de santé.</p></div>
+<div class="grid"><article class="card"><h3>Régularité</h3><p>Observer les horaires, l'organisation des repas et ce qui est durable dans ton quotidien.</p></article><article class="card"><h3>Écouter les signaux</h3><p>Noter faim, satiété et énergie sans jugement sur les écarts éventuels.</p></article><article class="card"><h3>Comprendre l'ensemble</h3><p>Relier l'énergie disponible, l'entraînement et les repas sans prescrire de restriction automatique.</p></article></div>
+</section>
+<section class="section" id="suivi"><div class="section-head"><span class="eyebrow">Mon compte rendu</span><h2>Préparer mon suivi sport + alimentation</h2><p>Remplis ce que tu souhaites partager. Le texte reste dans ce navigateur jusqu'à ce que tu le copies ou le partages.</p></div>
+<div class="card"><form id="report-form"><div class="formgrid">
+<label class="field">Prénom ou pseudonyme<input id="name" maxlength="70" autocomplete="name" placeholder="Facultatif"></label>
+<label class="field">Forme du jour<select id="energy"><option value="">Non renseignée</option><option>Très fatigué</option><option>Fatigue modérée</option><option>Correcte</option><option>Très bonne</option></select></label>
+<label class="field">Sommeil<select id="sleep"><option value="">Non renseigné</option><option>Insuffisant</option><option>Interrompu</option><option>Correct</option><option>Bon</option></select></label>
+<label class="field">Séance prévue<select id="training"><option value="">Non renseignée</option><option>Réalisée</option><option>Partiellement réalisée</option><option>Non réalisée</option><option>Repos prévu</option></select></label>
+<label class="field">Repas et organisation<select id="meals"><option value="">Non renseignés</option><option>Réguliers</option><option>Variables</option><option>Difficiles à organiser</option><option>J'ai peu mangé</option></select></label>
+<label class="field">Faim ou envies<select id="appetite"><option value="">Non renseignées</option><option>Habituelles</option><option>Faim importante</option><option>Envies sucrées</option><option>Grignotages</option></select></label>
+<label class="field wide">Séance réellement effectuée et éventuelles difficultés<textarea id="training-details" maxlength="1500" placeholder="Exercices, séries, difficulté, sensation..."></textarea></label>
+<label class="field wide">Douleur ou gêne à signaler (facultatif)<textarea id="pain" maxlength="600" placeholder="N'indique aucune information médicale sensible ici."></textarea></label>
+<label class="field wide">Objectif ou disponibilité pour la suite<textarea id="next-goal" maxlength="500"></textarea></label>
+<label class="field wide">Autre précision<textarea id="notes" maxlength="1500"></textarea></label>
+</div><p class="form-note">Aucun message n'est envoyé automatiquement et rien n'est enregistré sur un serveur par ce formulaire.</p><div class="actions"><button type="submit" class="primary">Préparer mon message</button><button type="reset" class="ghost">Effacer le formulaire</button></div></form>
+<div id="report-output" class="hidden"><div class="report" id="report-text" aria-live="polite"></div><div class="actions"><button id="report-copy" class="primary" type="button">Copier le compte rendu</button><button id="report-share" class="ghost" type="button">Partager depuis mon téléphone</button></div><p id="report-status" role="status" class="form-note"></p></div>
+</div></section>
+<section class="section" id="formations"><div class="section-head"><span class="eyebrow">Pour aller plus loin</span><h2>Accompagnement et formation</h2><p>Ces formats figurent dans l'ancien site. Aucun tarif ni réservation ne sont automatisés dans cette version de secours.</p></div><div class="grid">
+<article class="card"><h3>Premier échange</h3><p>Faire le point sur les attentes, l'expérience et les contraintes avant de choisir un programme.</p></article>
+<article class="card"><h3>Formation ciblée</h3><p>Prendre le temps de comprendre une technique, un problème de programme ou des habitudes à revoir.</p></article>
+<article class="card"><h3>Accompagnement dans la durée</h3><p>Examiner les séances réalisées, la récupération et les objectifs, pour gagner progressivement en autonomie.</p></article>
+</div><div class="actions"><a class="primary" href="../coach-vivant.html">Accéder au Coach vivant</a><a class="ghost" href="../">Tous mes outils Coaching</a></div></section>
+<footer class="footer"><strong>Espace Formation · Sport & alimentation</strong><p>Copie de secours éditoriale sur GitHub Pages. Les fonctions de paiement, prise de rendez-vous et contacts privés du site Cloudflare n'ont pas été migrées.</p><nav><a href="#accueil">Accueil</a><a href="#programmes">Programmes</a><a href="#suivi">Suivi</a><a href="../coach-vivant.html">Coach personnel</a></nav></footer>
+</main>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const ids=["name","energy","sleep","training","meals","appetite","training-details","pain","next-goal","notes"];
+const titles=["Identité","Forme","Sommeil","Entraînement","Repas","Faim / envies","Séance en détail","Gêne déclarée","Prochaine étape","Notes"];
+let report="";
+function buildReport(){
+ const lines=["SUIVI SPORT + ALIMENTATION",new Date().toLocaleDateString("fr-FR"),""];
+ ids.forEach((id,i)=>{const value=$(id).value.trim();if(value)lines.push(titles[i]+" : "+value);});
+ lines.push("","Message préparé par l'Espace Formation (version de secours).");
+ return lines.join("\n");
+}
+$("report-form").addEventListener("submit",e=>{
+ e.preventDefault();report=buildReport();
+ $("report-text").textContent=report;
+ $("report-output").classList.remove("hidden");
+ $("report-status").textContent="Message préparé. Tu peux le copier ou ouvrir le partage de ton téléphone.";
+ $("report-output").scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+$("report-form").addEventListener("reset",()=>{report="";$("report-output").classList.add("hidden");});
+$("report-copy").addEventListener("click",async()=>{
+ if(!report)return;
+ try{await navigator.clipboard.writeText(report);$("report-status").textContent="Compte rendu copié.";}
+ catch(_){$("report-status").textContent="Copie automatique indisponible. Sélectionne directement le texte ci-dessus.";}
+});
+$("report-share").addEventListener("click",async()=>{
+ if(!report)return;
+ if(navigator.share){try{await navigator.share({title:"Mon suivi sport et alimentation",text:report});}catch(_){}}
+ else $("report-status").textContent="Le partage direct n'est pas disponible sur ce navigateur. Utilise Copier.";
+});
+})();
+</script>
+</body></html>
