@@ -290,7 +290,19 @@ async function init(){
  $("backup").addEventListener("click",exportData);
  $("import-trigger").addEventListener("click",()=>$("import-file").click());
  $("import-file").addEventListener("change",e=>{importData(e.target.files?.[0]);e.target.value="";});
- $("erase").addEventListener("click",()=>{if(identity){toast("Suppression de compte : exporte les données puis demande la suppression sécurisée ; cette commande ne supprime pas un compte distant.");return;}if(!confirm("Effacer toutes les données locales de ce navigateur ?"))return;localStorage.removeItem(cacheKey());state=blank();render();toast("Données locales effacées.");});
+ $("erase").addEventListener("click",()=>{if(identity){toast("Pour supprimer les données de ton compte, utilise le bouton voisin.");return;}if(!confirm("Effacer toutes les données locales de ce navigateur ?"))return;localStorage.removeItem(cacheKey());state=blank();render();toast("Données locales effacées.");});
+ $("erase-cloud").addEventListener("click",async()=>{
+   if(!identity){toast("Connecte-toi au compte à supprimer.");return;}
+   if(!confirm("Cette action supprimera définitivement les séances, pesées, notes, objectifs et programmes du compte connecté. Les autres univers resteront intacts. Continuer ?"))return;
+   const typed=prompt('Tape exactement SUPPRIMER pour confirmer la suppression irréversible de tes données Coaching.');
+   if(typed!=="SUPPRIMER"){toast("Suppression annulée.");return;}
+   const owner=identity.id;
+   try{
+     await authed("/rest/v1/rpc/coach_purge_own_data","POST",{});
+     localStorage.removeItem(STORE+"-"+owner);
+     state=blank();cache();render();toast("Données Coaching du compte supprimées. Le compte de connexion est conservé.");
+   }catch(err){authStatus("Suppression non confirmée : "+err.message);}
+ });
  render();await restore();authStatus();
 }
 init().catch(e=>{authStatus("Initialisation incomplète : "+e.message);});
