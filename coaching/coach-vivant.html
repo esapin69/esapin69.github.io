@@ -8,6 +8,7 @@
 <title>Mon accompagnement — Univers Coaching</title>
 <link rel="stylesheet" href="./coach-vivant.css">
 <script src="./coach-questions.js" defer></script>
+<script src="./coach-brain.js" defer></script>
 <script src="./coach-vivant.js" defer></script>
 </head>
 <body>
@@ -37,6 +38,18 @@
 <button type="button" class="tab" data-tab="prefs">Profil</button>
 </nav>
 <section id="today" class="pane">
+<div class="card" id="brain-card" aria-labelledby="brain-heading">
+<div class="flex between"><h2 id="brain-heading">Mon coach aujourd'hui</h2><span class="eyebrow" id="brain-status">Suivi actif à l'ouverture</span></div>
+<p class="muted" id="brain-summary">Lecture de tes séances et de ton historique.</p>
+<div class="suggestion" id="brain-decision" aria-live="polite">
+<h3 id="brain-title">Préparation de la prochaine étape</h3>
+<p id="brain-explanation"></p>
+<p class="muted" id="brain-source"></p>
+</div>
+<div class="actions"><button type="button" class="primary" id="brain-act">Choisir cette étape</button><button type="button" class="secondary" id="brain-later">Me le rappeler plus tard</button></div>
+<div id="brain-followup" class="hidden" aria-live="polite"></div>
+<p class="muted">Le coach indique ses sources et demande confirmation avant de changer tes objectifs. Aucun accès à d'autres comptes, aucune recherche cachée et aucune IA payante.</p>
+</div>
 <div class="card" id="guided-card" aria-labelledby="guided-heading">
 <div class="flex between"><h2 id="guided-heading">Apprendre à te connaître</h2><span class="eyebrow" id="guided-progress">Une question à la fois</span></div>
 <p class="muted" id="guided-reason">Le coach te pose uniquement la prochaine question utile. Tu peux répondre plus tard ou revoir tes réponses.</p>
@@ -44,7 +57,7 @@
 <div id="guided-choices" class="choices" role="group" aria-labelledby="guided-question"></div>
 <div class="actions"><button type="button" class="secondary" id="guided-later">Plus tard</button><button type="button" class="secondary" id="guided-profile">Voir mes repères</button></div>
 <p class="muted" id="guided-feedback" role="status" aria-live="polite"></p>
-<p class="muted">Les choix sont interprétés par des règles locales, sans appel à une IA payante. L'agent personnel Telegram n'a accès à aucune donnée de ce compte.</p>
+<p class="muted">Les choix sont interprétés par le moteur de coaching local, sans aucun appel à une IA payante.</p>
 </div>
 <div class="card" id="welcome-card">
 <div class="flex between"><h2 id="greeting">Ta prochaine étape</h2><span class="eyebrow" id="session-state">À préparer</span></div>
@@ -104,6 +117,8 @@
 <label for="constraints">Contraintes et préférences à conserver telles quelles</label><textarea id="constraints" class="field" rows="4" maxlength="5000" placeholder="Horaires, matériel, récupération, exercices refusés, envies..."></textarea>
 <div class="flex"><div class="grow"><label for="equipment">Environnement</label><select id="equipment" class="field"><option value="maison">Maison</option><option value="salle">Salle</option></select></div><div class="grow"><label for="minutes">Durée disponible</label><select id="minutes" class="field"><option value="20">20 min</option><option value="35">35 min</option><option value="50">50 min</option></select></div></div>
 <div class="flex"><div class="grow"><label for="weekly">Séances souhaitées / semaine</label><select id="weekly" class="field"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div><div class="grow"><label for="focus">Priorité actuelle</label><select id="focus" class="field"><option value="equilibre">Équilibre</option><option value="haut">Haut du corps</option><option value="bas">Bas du corps</option></select></div></div>
+<label class="opt-in"><input type="checkbox" id="measurement-reminders"> Me proposer un bilan de pesée facultatif tous les 30 jours lorsque j'ouvre le site</label>
+<p class="muted">Désactivé par défaut. Pas de notification envoyée en dehors du site.</p>
 <button type="button" id="save-prefs" class="primary wide">Mettre à jour mes repères</button>
 </div>
 <div class="card"><h2>Garder mon historique</h2><p class="muted">Export complet téléchargeable et import de sauvegarde. Attention : ce n'est pas une synchronisation sécurisée entre comptes.</p><div class="actions"><button type="button" id="backup" class="primary">Exporter ma sauvegarde</button><button type="button" id="import-trigger" class="secondary">Importer une sauvegarde</button></div><input id="import-file" type="file" accept=".json,application/json" class="hidden"><p id="backup-status" class="muted" aria-live="polite"></p></div>
