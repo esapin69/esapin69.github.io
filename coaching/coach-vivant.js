@@ -109,7 +109,7 @@ async function cloudRead(){
 async function saveProfile(){
  if(!identity){cache();return;}
  const p=state.profile;
- await authed("/rest/v1/coach_profiles?on_conflict=user_id","POST",{user_id:identity.id,display_name:p.name,objective:p.objective,constraints_text:p.constraints,preferences:{equipment:p.equipment,minutes:p.minutes,weekly:p.weekly,focus:p.focus},updated_at:timestamp()});
+ await authed("/rest/v1/coach_profiles?on_conflict=user_id","POST",{user_id:identity.id,display_name:p.name,objective:p.objective,constraints_text:p.constraints,preferences:{equipment:p.equipment,minutes:p.minutes,weekly:p.weekly,focus:p.focus,experience:p.experience||"",scheduleType:p.scheduleType||"",recovery:p.recovery||"",comfortNote:p.comfortNote||"",intake:p.intake||{}},updated_at:timestamp()});
  authStatus("Profil sauvegardé sur Supabase.");
 }
 async function savePlan(){
@@ -179,7 +179,7 @@ async function logout(){
 const lastSignal=()=>[...state.observations].reverse().find(x=>!["none","migration"].includes(x.signal))||null;
 function buildPlan(){
  const signal=lastSignal(),recent=state.sessions.slice(-3),p=state.profile;
- const difficult=recent.filter(s=>Number(s.effort)>=8).length>=2||signal?.signal==="hard";
+ const difficult=p.recovery==="fatigue"||recent.filter(s=>Number(s.effort)>=8).length>=2||signal?.signal==="hard";
  const short=signal?.signal==="time",minutes=short?Math.min(p.minutes,20):p.minutes;
  const old=state.current;
  let order=[...patterns];if(p.focus==="haut")order.sort((a,b)=>Number(["poussee","tirage","epaules"].includes(b))-Number(["poussee","tirage","epaules"].includes(a)));if(p.focus==="bas")order.sort((a,b)=>Number(["jambes","hanches"].includes(b))-Number(["jambes","hanches"].includes(a)));
@@ -187,7 +187,7 @@ function buildPlan(){
  const exercises=order.slice(0,count).map((cat,i)=>{
   const v=library[p.equipment][cat][(state.revision+i)%2];return {id:uid(),category:cat,title:v[0],reps:v[1],symbol:v[2],instruction:v[3],sets,checks:Array(sets).fill(false),rest:difficult?90:75};
  });
- return {id:uid(),revision:state.revision+1,created:timestamp(),minutes,exercises,needsSafetyReview:signal?.signal==="pain",reason:"Plan révisable fondé sur tes disponibilités et sur tes retours explicitement enregistrés.",previousPlanId:old?.id||null};
+ return {id:uid(),revision:state.revision+1,created:timestamp(),minutes,exercises,needsSafetyReview:signal?.signal==="pain"||["oui","incertain"].includes(p.comfortNote),reason:"Plan révisable fondé sur tes disponibilités et sur tes retours explicitement enregistrés.",previousPlanId:old?.id||null};
 }
 function ensure(){if(!state.current){state.current=buildPlan();state.revision++;cache();}}
 function signalSuggestion(){
@@ -226,6 +226,43 @@ function lists(){
  $("weight-history").replaceChildren();if(!state.weights.length)$("weight-history").append(el("p","muted","Aucune mesure. C'est facultatif."));
  else for(const w of [...state.weights].reverse().slice(0,40))$("weight-history").append(eventBox(w.date,w.value.toFixed(1)+" kg"));
 }
+
+function renderGuided(){
+ const engine=window.CoachQuestions,root=$("guided-choices");root.replaceChildren();
+ if(!engine){$("guided-heading").textContent="Parcours indisponible";$("guided-reason").textContent="Tes séances et ton historique restent accessibles.";return;}
+ const q=engine.nextQuestion(state),p=engine.progress(state);
+ $("guided-progress").textContent=p.done+" / "+p.total+" repères";
+ $("guided-heading").textContent=q?"Apprendre à te connaître":"Tes premiers repères sont prêts";
+ $("guided-later").disabled=!q;
+ $("guided-question").textContent=q?q.title:"Le coach utilisera tes prochains retours pour adapter les questions.";
+ $("guided-reason").textContent=q?q.reason:"Pas de questionnaire sans fin : le coach te reposera une question seulement si un nouveau retour le justifie.";
+ $("guided-feedback").textContent="";
+ if(!q)return;
+ for(const option of q.choices){
+  const button=el("button","guided-option",option.label);
+  button.type="button";button.setAttribute("aria-label",option.label);
+  button.addEventListener("click",()=>acceptGuided(q,option.value));
+  root.append(button);
+ }
+}
+async function acceptGuided(q,value){
+ const engine=window.CoachQuestions;
+ let decision;try{decision=engine.respond(state,q.key,value);}catch(err){toast("Réponse refusée : "+err.message);return;}
+ state.profile=decision.profile;cache();
+ if(identity)try{await saveProfile();}catch(err){authStatus("Réponse conservée sur cet appareil, synchronisation indisponible : "+err.message);}
+ if(decision.replan&&!hasChecked()){
+  try{await newPlan();}catch(err){authStatus("Nouveau programme à synchroniser : "+err.message);render();}
+ }else render();
+ $("guided-feedback").textContent=decision.message;
+}
+async function postponeGuided(){
+ const engine=window.CoachQuestions,q=engine?.nextQuestion(state);
+ if(!q)return;
+ state.profile=engine.snooze(state,q.key);cache();
+ if(identity)try{await saveProfile();}catch(err){authStatus("Report sauvegardé localement : "+err.message);}
+ render();toast("Question reportée, sans perdre tes informations.");
+}
+
 function render(){
  feedbackOpen=false;document.querySelectorAll(".feedback").forEach(n=>n.remove());
  ensure();const p=state.profile;
@@ -237,7 +274,7 @@ function render(){
  if(!$("weigh-date").value)$("weigh-date").value=new Date().toLocaleDateString("en-CA");
  document.querySelectorAll(".tab").forEach(b=>{const active=b.dataset.tab===section;b.classList.toggle("active",active);if(active)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");});
  document.querySelectorAll(".pane").forEach(pane=>pane.classList.toggle("hidden",pane.id!==section));
- signalSuggestion();exercisesUI();lists();authStatus();
+ signalSuggestion();exercisesUI();lists();authStatus();renderGuided();
 }
 function view(name){section=name;render();window.scrollTo({top:0,behavior:"instant"});}
 function hasChecked(){return state.current?.exercises.some(ex=>ex.checks.some(Boolean));}
@@ -283,6 +320,8 @@ async function importData(file){
  }catch(e){toast("Import impossible : "+e.message);}
 }
 async function init(){
+ $("guided-later").addEventListener("click", postponeGuided);
+ $("guided-profile").addEventListener("click",()=>view("prefs"));
  document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>view(b.dataset.tab)));
  $("signin").addEventListener("click",()=>authenticate("signin"));
  $("signup").addEventListener("click",()=>authenticate("signup"));
@@ -299,7 +338,7 @@ async function init(){
  });
  $("sync").addEventListener("click",async()=>{try{if(busy){toast("La synchronisation est déjà en cours.");return;}await flushPending();if(state.pending.length){toast("Des événements sont encore en attente.");return;}const remote=await cloudRead();state=remote;cache();render();toast("Données rechargées.");}catch(e){authStatus("Synchronisation impossible : "+e.message);}});
  $("add-note").addEventListener("click",()=>{const text=$("journal-text").value.trim();if(!text){toast("Écris ton observation.");return;}const signal=document.querySelector("input[name=signal]:checked")?.value||"none";recordEvent("journal",{text,signal});$("journal-text").value="";render();toast("Observation enregistrée.");});
- $("save-prefs").addEventListener("click",async()=>{const before=JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});state.profile={name:$("who").value.trim().slice(0,60),objective:$("why").value.trim().slice(0,3000),constraints:$("constraints").value.trim().slice(0,5000),equipment:$("equipment").value,minutes:Number($("minutes").value),weekly:Number($("weekly").value),focus:$("focus").value};cache();try{await saveProfile();}catch(e){authStatus("Profil local conservé ; cloud non synchronisé : "+e.message);}const changed=before!==JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});if(changed&&!hasChecked())await newPlan();else{toast(changed?"Repères sauvegardés. Une séance est en cours : tes séries sont conservées.":"Repères sauvegardés sans effacer ton histoire.");render();}});
+ $("save-prefs").addEventListener("click",async()=>{const before=JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});state.profile={...state.profile,name:$("who").value.trim().slice(0,60),objective:$("why").value.trim().slice(0,3000),constraints:$("constraints").value.trim().slice(0,5000),equipment:$("equipment").value,minutes:Number($("minutes").value),weekly:Number($("weekly").value),focus:$("focus").value};cache();try{await saveProfile();}catch(e){authStatus("Profil local conservé ; cloud non synchronisé : "+e.message);}const changed=before!==JSON.stringify({equipment:state.profile.equipment,minutes:state.profile.minutes,focus:state.profile.focus});if(changed&&!hasChecked())await newPlan();else{toast(changed?"Repères sauvegardés. Une séance est en cours : tes séries sont conservées.":"Repères sauvegardés sans effacer ton histoire.");render();}});
  $("add-weight").addEventListener("click",()=>{const n=Number($("weight").value),date=$("weigh-date").value;if(!(n>=1&&n<=500)||!/^\d{4}-\d{2}-\d{2}$/.test(date)){toast("Saisis une date et une mesure cohérente.");return;}recordEvent("measurement",{date,value:n});$("weight").value="";render();toast("Mesure enregistrée sans jugement.");});
  $("save-schedule").addEventListener("click",()=>{const value=$("start-date").value;if(!value||Number.isNaN(new Date(value).getTime())){toast("Choisis un créneau valable.");return;}state.scheduled=value;cache();if(identity)recordEvent("schedule",{date:value});render();toast("Créneau conservé.");});
  $("ics").addEventListener("click",calendar);
