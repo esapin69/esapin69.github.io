@@ -1,0 +1,40 @@
+name: Render Sortir a Lyon Shorts (free public runner)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sortir-lyon-media/2026-11-03-*.svg'
+      - '.github/workflows/render-sortir-lyon-shorts.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install free image and video tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq librsvg2-bin ffmpeg
+      - name: Render original still Shorts without music
+        shell: bash
+        run: |
+          set -euo pipefail
+          for key in astronomie_4most massage_cardiaque jeux_cusset masters_patinage bourse_loisirs repetition_insa loto_halloween conviviale_neige badminton_villeurdames; do
+            src="sortir-lyon-media/2026-11-03-${key}-post.svg"
+            if [ "$key" = "astronomie_4most" ]; then src="sortir-lyon-media/2026-11-03-4most.svg"; fi
+            dst="sortir-lyon-media/2026-11-03-${key}-short.mp4"
+            if [ -f "$dst" ]; then continue; fi
+            if [ ! -f "$src" ]; then echo "Missing source: $src"; exit 1; fi
+            rsvg-convert -w 1080 -h 1350 "$src" -o "/tmp/${key}.png"
+            ffmpeg -hide_banner -loglevel error -y -loop 1 -framerate 1 -i "/tmp/${key}.png" -t 10 -r 25 -vf "pad=1080:1920:0:285:color=0x0c172a,format=yuv420p" -c:v libx264 -preset ultrafast -crf 30 -movflags +faststart "$dst"
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sortir-lyon-media/*-short.mp4
+          if ! git diff --cached --quiet; then
+            git commit -m "Render free factual Shorts from approved public event visuals"
+            git push
+          fi
